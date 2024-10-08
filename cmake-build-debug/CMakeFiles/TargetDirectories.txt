@@ -1,0 +1,3 @@
+C:/programowanie/programy c++ tep/cmake-build-debug/CMakeFiles/programy_c___tep.dir
+C:/programowanie/programy c++ tep/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/programowanie/programy c++ tep/cmake-build-debug/CMakeFiles/rebuild_cache.dir
