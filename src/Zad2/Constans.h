@@ -4,8 +4,9 @@
 
 #ifndef CONSTANS_H
 #define CONSTANS_H
-
-const int NUMBER_DEFAULT_LENGTH = 10;
-const int SYSTEM=10; // maximum INT_MAX xd?
+namespace cst {
+    const int NUMBER_DEFAULT_LENGTH = 10;
+    const int SYSTEM = 10;
+}
 
 #endif //CONSTANS_H

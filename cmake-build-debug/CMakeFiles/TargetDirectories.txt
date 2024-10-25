@@ -1,3 +1,0 @@
-C:/programowanie/Clion projekty/Tep_cpp/cmake-build-debug/CMakeFiles/programy_c___tep.dir
-C:/programowanie/Clion projekty/Tep_cpp/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/programowanie/Clion projekty/Tep_cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,5 +1,4 @@
-ToolSet: 11.0 w64 (local)@C:\programowanie\winlibs-x86_64-posix-seh-gcc-13.1.0-llvm-16.0.5-mingw-w64ucrt-11.0.0-r5\mingw64
-Ninja: 1.12.0@C:\Program Files\JetBrains\CLion 2024.2.2\bin\ninja\win\x64\ninja.exe
+ToolSet: w64 11.0 (local)@D:\Programownie\winlibs-x86_64-posix-seh-gcc-13.1.0-llvm-16.0.5-mingw-w64msvcrt-11.0.0-r5\mingw64
 Options: 
 
-Options:
+Options:-DCMAKE_CXX_COMPILER=D:/Programownie/winlibs-x86_64-posix-seh-gcc-13.1.0-llvm-16.0.5-mingw-w64msvcrt-11.0.0-r5/mingw64/bin/g++.exe

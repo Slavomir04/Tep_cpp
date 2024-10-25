@@ -18,15 +18,15 @@ public:
 
     void vSet(int i_new_value);
     void operator=(const CNumber &pc_new_value);
-    const CNumber operator+(CNumber &pc_new_value);
-    const CNumber operator-(CNumber &pc_new_value);
-    const CNumber operator*(CNumber &pc_new_value);
-    const CNumber operator/(CNumber &pc_new_value);
+    CNumber operator+(CNumber &pc_new_value);
+    CNumber operator-(CNumber &pc_new_value);
+    CNumber operator*(CNumber &pc_new_value);
+    CNumber operator/(CNumber &pc_new_value);
     void operator=(int i_new_value);
-    const CNumber operator+(int i_new_value);
-    const CNumber operator-(int i_new_value);
-    const CNumber operator*(int i_new_value);
-    const CNumber operator/(int i_new_value);
+    CNumber operator+(int i_new_value);
+    CNumber operator-(int i_new_value);
+    CNumber operator*(int i_new_value);
+    CNumber operator/(int i_new_value);
 
     std::string str_str();
 private:

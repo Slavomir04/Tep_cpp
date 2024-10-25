@@ -1,11 +1,14 @@
 //
 // Created by slawe on 22.10.2024.
 //
-
+#include <cmath>
 #include "CNumber.h"
+using namespace cst;
 void CNumber::vFirstInit() {
+
     i_length = NUMBER_DEFAULT_LENGTH;
     pi_number = new int[NUMBER_DEFAULT_LENGTH]{};
+
 }
 
 CNumber::CNumber() {
@@ -17,29 +20,32 @@ CNumber::~CNumber() {
 }
 
 void CNumber::vSet(int i_new_value) {
-        // i_ln = SYSTEM^(i_power-1) np. nasz 10^(i_power-1)
-        if(i_new_value < 0) {
-            i_new_value = -1*i_new_value;
-            b_is_neg=true;
-        }else b_is_neg=false;
-        int i_ln=1;
-        int i_power=0;
-        while(i_new_value%i_ln!=i_new_value) {
-            i_ln*=SYSTEM;
-            i_power++;
-        }
-        i_ln= i_ln>SYSTEM?(i_ln/SYSTEM):1;
+    int i_power=0;
+    int i_log_SYSTEM=1;
 
-        delete[] pi_number; //usuwanie pointera null nic nie daje, wiec mozna uzyc bez konsekwencji
-        i_length=i_power>0?i_power:1;
-        pi_number = new int[i_length];
+    bool sign = i_new_value >= 0;
 
-        for(int i=0; i<i_length; i++) {
-            int i_temp = i_new_value/i_ln;
-            pi_number[i]=i_temp;
-            i_new_value = i_new_value - i_temp*i_ln;
-            i_ln/=SYSTEM;
-        }
+    if(!sign)i_new_value = -1 * i_new_value;
+
+    while(i_new_value % i_log_SYSTEM != i_new_value){
+        i_log_SYSTEM *= cst::SYSTEM;
+        i_power++;
+    }
+
+    delete[] pi_number; //Uzywanie delete na nullptr nie posiada konsekwencji wiec jest bezpieczne
+    i_length = i_power!=0?i_power:1;
+    pi_number = new int[i_length];
+
+
+
+
+    for(int i=0; i<i_length; i++){
+        i_log_SYSTEM*=SYSTEM;
+        int i_current_value = i_new_value/i_log_SYSTEM;
+        pi_number[i]=i_current_value;
+        i_new_value-=(i_current_value*i_log_SYSTEM);
+    }
+
 }
 
 void CNumber::operator=(const CNumber &pc_new_value) {
@@ -52,7 +58,7 @@ void CNumber::operator=(const CNumber &pc_new_value) {
     }
 }
 
-const CNumber CNumber::operator+(CNumber &pc_new_value) {
+CNumber CNumber::operator+(CNumber &pc_new_value) {
     const int i_prefix = b_is_neg?-1:1;
     const int i_prefix_pc_new_value = b_is_neg?-1:1;
 
@@ -75,28 +81,29 @@ const CNumber CNumber::operator+(CNumber &pc_new_value) {
     }
 }
 
-const CNumber CNumber::operator-(CNumber &pc_new_value) {
+CNumber CNumber::operator-(CNumber &pc_new_value) {
 }
 
-const CNumber CNumber::operator*(CNumber &pc_new_value) {
+CNumber CNumber::operator*(CNumber &pc_new_value) {
 }
 
-const CNumber CNumber::operator/(CNumber &pc_new_value) {
+CNumber CNumber::operator/(CNumber &pc_new_value) {
 }
 
 void CNumber::operator=(int i_new_value) {
+
 }
 
-const CNumber CNumber::operator+(int i_new_value) {
+CNumber CNumber::operator+(int i_new_value) {
 }
 
-const CNumber CNumber::operator-(int i_new_value) {
+CNumber CNumber::operator-(int i_new_value) {
 }
 
-const CNumber CNumber::operator*(int i_new_value) {
+CNumber CNumber::operator*(int i_new_value) {
 }
 
-const CNumber CNumber::operator/(int i_new_value) {
+CNumber CNumber::operator/(int i_new_value) {
 }
 
 std::string CNumber::str_str() {
@@ -106,5 +113,7 @@ std::string CNumber::str_str() {
     }
     return ss.str();
 }
+
+
 
 

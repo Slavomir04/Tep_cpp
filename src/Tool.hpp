@@ -40,6 +40,14 @@ public:
             return true;
         }
     }
+
+    template<class T>
+    static void v_show_array(T* &pc_Template,int i_size){
+        for(int i=0; i<i_size; i++){
+            std::cout<<pc_Template[i]<<" ";
+        }
+        std::cout<<'\n';
+    }
 };
 
 
