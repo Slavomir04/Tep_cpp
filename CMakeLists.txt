@@ -10,4 +10,5 @@ add_executable(programy_c___tep main.cpp
         src/Zad1/Functions.h
         src/Zad2/CNumber.cpp
         src/Zad2/CNumber.h
-        src/Zad2/Constans.h)
+        src/Zad2/Constans.h
+)

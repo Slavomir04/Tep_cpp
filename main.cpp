@@ -2,64 +2,47 @@
 #include "src/Tool.hpp"
 #include "src/Zad2/Constans.h"
 #include "src/Zad2/CNumber.h"
+#include <cmath>
 #include <iostream>
-void test(int i_new_value) {
-    int i_power=0;
-    int i_log_SYSTEM=1;
 
-    bool sign = i_new_value >= 0;
-
-    if(!sign)i_new_value = -1 * i_new_value;
-
-    while(i_new_value % i_log_SYSTEM != i_new_value){
-        i_log_SYSTEM *= cst::SYSTEM;
-        i_power++;
+int vTrim(int* &pi_number,int i_length) {
+    int i_zeroes=0;
+    bool loop=true;
+    for(int i=0; i<i_length&&loop; i++) {
+        if(pi_number[i]==0) {
+            i_zeroes++;
+        }
+        else {
+         loop=false;
+        }
     }
-    printf("liczba: %s%i logarytm%i: %i, potega %i\n", (sign?"+":"-"), i_new_value,cst::SYSTEM,i_log_SYSTEM,i_power);
-
-}
-using namespace cst;
-void test2(int i_new_value){
-    int i_length=10;
-    int* pi_number;
-
-
-    int i_power=0;
-    int i_log_SYSTEM=1;
-
-    bool sign = i_new_value >= 0;
-
-    if(!sign)i_new_value = -1 * i_new_value;
-
-    while(i_new_value % i_log_SYSTEM != i_new_value){
-        i_log_SYSTEM *= cst::SYSTEM;
-        i_power++;
+    if(i_zeroes>0) {
+        if(i_zeroes==i_length) {
+            int* pi_new=new int[1]{0};
+            delete[] pi_number;
+            pi_number=pi_new;
+            i_length=1;
+        }
+        else {
+            int i_length_new = i_length-i_zeroes;
+            int* pi_number_new = new int[i_length_new];
+            for(int i=0; i<i_length_new; i++) {
+                pi_number_new[i] = pi_number[i+i_zeroes];
+            }
+            delete[] pi_number;
+            pi_number = pi_number_new;
+            i_length = i_length_new;
+        }
     }
-
-    delete[] pi_number; //Uzywanie delete na nullptr nie posiada konsekwencji wiec jest bezpieczne
-    i_length = i_power!=0?i_power:1;
-    pi_number = new int[i_length];
-
-
-
-
-    for(int i=0; i<i_length; i++){
-        i_log_SYSTEM/=SYSTEM;
-        int i_current_value = i_new_value/i_log_SYSTEM;
-        pi_number[i]=i_current_value;
-        i_new_value-=(i_current_value*i_log_SYSTEM);
-    }
-
-    Tool::v_show_array(pi_number,i_length);
-    delete[] pi_number;
+    return i_length;
 }
 
 
 using namespace std;
 int main() {
-
-    test2(101);
-
-
+    CNumber c1 = 15;
+    CNumber c2 = -1;
+    for(int i=0; i<25000; i++)c1 = c1-1;
+    cout<<c1.str_str()<<endl;
     return 0;
 }
