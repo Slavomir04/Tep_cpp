@@ -210,27 +210,27 @@ CNumber CNumber::cDivideTwoNumbers(const CNumber &pc_other) const {
         return CNumber(0);
     }else {
 
-        CNumber result(0);
+        CNumber c_result(0);
 
 
-        CNumber zero(0);
-        CNumber one(1);
+        CNumber c_zero(0);
+        CNumber c_one(1);
 
-        CNumber nomiator(*this);
-        nomiator.b_sign = true;
+        CNumber c_nomiator(*this);
+        c_nomiator.b_sign = true;
 
-        CNumber divider(pc_other);
-        divider.b_sign = true;
+        CNumber c_divider(pc_other);
+        c_divider.b_sign = true;
 
-        while (nomiator.b_sign && nomiator.bIsBigger(zero, 0)) {
-            nomiator = nomiator - divider;
+        while (c_nomiator.b_sign && c_nomiator.bIsBigger(c_zero, 0)) {
+            c_nomiator = c_nomiator - c_divider;
 
-            if (nomiator.b_sign) {
-                result = result + one;
+            if (c_nomiator.b_sign) {
+                c_result = c_result + c_one;
             }
         }
-        result.b_sign = this->b_sign == pc_other.b_sign;
-        return result;
+        c_result.b_sign = this->b_sign == pc_other.b_sign;
+        return c_result;
     }
 }
 
