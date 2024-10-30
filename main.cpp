@@ -37,7 +37,7 @@ int vTrim(int* &pi_number,int i_length) {
     return i_length;
 }
 
-void vAddArrays(int *&pi_result, int i_size_result,int* &pi_this,int i_length_this,int* &pi_other, int i_length_other,int i_displacement){
+void vAddArrays(int *&pi_result, int i_size_result,int* &pi_this,int i_length_this,int i_displacement_this,int* &pi_other, int i_length_other,int i_displacement_other){
     const int SYSTEM = 10;
     int i_accumulator = 0;
 
@@ -46,13 +46,13 @@ void vAddArrays(int *&pi_result, int i_size_result,int* &pi_this,int i_length_th
 
     for(int i=i_size_result-1; i>=0; i--) {
 
-        int i_index_this = i-i_shift_this;
-        int i_index_other = i-i_shift_other + i_displacement;
+        int i_index_this = i-i_shift_this + i_displacement_this;
+        int i_index_other = i-i_shift_other + i_displacement_other;
 
-        if(i_index_this>=0) {
+        if(i_index_this>=0 && (i_size_result-1 - i_displacement_this) >= i) {
             i_accumulator+=pi_this[i_index_this];
         }
-        if(i_index_other>=0 && (i_size_result-1 - i_displacement) >= i ) {
+        if(i_index_other>=0 && (i_size_result-1 - i_displacement_other) >= i ) {
             i_accumulator+=pi_other[i_index_other];
         }
         pi_result[i]=i_accumulator%SYSTEM;
@@ -84,9 +84,6 @@ void vSubArrays(int *&pi_result, int i_size_result,int* &pi_this,int i_length_th
             }
         }
     }
-
-
-
 }
 
 bool bIsBigger(int* pi_this,int i_length_this,int* pi_other,int i_length_other,int i_displacement){
@@ -111,6 +108,38 @@ bool bIsBigger(int* pi_this,int i_length_this,int* pi_other,int i_length_other,i
     }
 }
 
+void vMullTwoNumber(int *&pi_result, int i_size_result,int* &pi_this,int i_length_this,int* &pi_other, int i_length_other){
+    /*
+    for(int i=0; i<i_length_this; i++) {
+        for (int ii = 0; ii < pi_this[i]; ii++) {
+            int *pi_temp = new int[i_size_result];
+            for (int i_index_copy = 0; i_index_copy < i_size_result; i_index_copy++) {
+                pi_temp[i_index_copy] = pi_result[i_index_copy];
+            }
+            int i_system_shift = (i_length_this - 1 - i);
+            vAddArrays(pi_temp, i_size_result, pi_result, i_size_result,0, pi_other, i_length_other, i_system_shift);
+            delete[] pi_result;
+            pi_result = pi_temp;
+        }
+    }
+    */
+
+
+    for(int i=0; i<i_length_other; i++) {
+        for(int ii=0; ii < pi_other[i]; ii++){
+            int* pi_temp = new int[i_size_result];
+            for(int i_index_copy=0; i_index_copy<i_size_result; i_index_copy++){
+                pi_temp[i_index_copy]=pi_result[i_index_copy];
+            }
+            int i_system_shift =(i_length_other - 1 - i);
+            vAddArrays(pi_temp,i_size_result,pi_this,i_length_this,i_system_shift,pi_result,i_size_result,0);
+            delete[] pi_result;
+            pi_result = pi_temp;
+        }
+    }
+
+}
+
 
 
 using namespace std;
@@ -121,21 +150,26 @@ int main() {
 
     int size_this = 3;
     int size_other = 3;
-    int size_Result = 4;
-    int* pi_this = new int[size_this]{1,1,2};
-    int* pi_other = new int[size_other]{  9,0,0};
-    int* pi_result = new int[size_Result];
+    int size_Result = size_this+size_other;
+    int* pi_this = new int[size_this]{1,2,3};
+    int* pi_other = new int[size_other]{  1,1,2};
+    int* pi_result = new int[size_Result]{};
 
-
+  //  vMullTwoNumber(pi_result,size_Result,pi_this,size_this,pi_other,size_other);
+  //  vAddArrays(pi_result,size_Result,pi_this,size_this,0,pi_other,size_other,0);
+  //  size_Result = vTrim(pi_result,size_Result);
+   // Tool::v_show_array(pi_result,size_Result);
     delete[] pi_result;
     delete[] pi_this;
     delete[] pi_other;
 
 
 
-    CNumber c1 = 500;
-    CNumber c2 = 101;
+    CNumber c1 = 760;
+    CNumber c2 = INT_MAX/100;
 
-    cout<<(c1.addTwoNumbers(c2,0)).str_str()<<endl;
+
+
+    cout<<(c1.cMultiplyTwoNumbers(c2)).str_str()<<endl;
 
 }
