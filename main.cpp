@@ -165,11 +165,11 @@ int main() {
 
 
 
-    CNumber c1 = 760;
-    CNumber c2 = INT_MAX/100;
+    CNumber c1 = 76;
+    CNumber c2 = 1423;
 
 
 
-    cout<<(c1.cMultiplyTwoNumbers(c2)).str_str()<<endl;
+    cout<<(c2/c1).str_str()<<endl;
 
 }

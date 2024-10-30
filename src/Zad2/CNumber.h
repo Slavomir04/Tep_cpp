@@ -37,7 +37,7 @@ public:
 
 
 
-//private:
+private:
     CNumber cAddTwoNumbers(const CNumber &pc_other, int i_displacement) const; //two number must have same sign, other number with displacement must be maximum 1SYstem bigger from this
     CNumber cSubtractTwoNumbers(const CNumber &pc_other) const; //two number cannot have same sign
     CNumber cMultiplyTwoNumbers(const CNumber &pc_other) const;
