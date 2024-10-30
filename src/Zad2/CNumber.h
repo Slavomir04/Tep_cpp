@@ -13,11 +13,11 @@ class CNumber {
 
 public:
     CNumber();
-    CNumber(int i_value);
+    CNumber(long i_value);
     CNumber(const CNumber &pc_value_to_copy);
     ~CNumber();
 
-    void vSet(int i_new_value);
+    void vSet(long l_new_value);
     void operator=(const CNumber &pc_new_value);
     CNumber operator+(const CNumber &pc_other);
     CNumber operator-(const CNumber &pc_other);
@@ -31,7 +31,7 @@ public:
     CNumber operator*(int i_other);
     CNumber operator/(int i_other);
 
-
+    void operator^=(int i_new_system);
 
     std::string str_str();
 
@@ -46,6 +46,7 @@ private:
     void vSubArrays(int* &pi_result, int i_length_result, const int* &pi_other, const int i_length_other) const; // sub always small from bigger
     void vMulArrays(int* &pi_result, int i_length_result, const int* &pi_other, const int i_length_other)const;
     bool bIsBigger(const CNumber &pc_other, int i_displacement) const;
+    bool bIsSame(const CNumber &pc_other) const;
     void vTrim();
     void vCopy(const CNumber &pc_new_value);
     void vFirstInit();

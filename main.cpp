@@ -148,28 +148,22 @@ int main() {
 
 
 
-    int size_this = 3;
-    int size_other = 3;
-    int size_Result = size_this+size_other;
-    int* pi_this = new int[size_this]{1,2,3};
-    int* pi_other = new int[size_other]{  1,1,2};
-    int* pi_result = new int[size_Result]{};
-
-  //  vMullTwoNumber(pi_result,size_Result,pi_this,size_this,pi_other,size_other);
-  //  vAddArrays(pi_result,size_Result,pi_this,size_this,0,pi_other,size_other,0);
-  //  size_Result = vTrim(pi_result,size_Result);
-   // Tool::v_show_array(pi_result,size_Result);
-    delete[] pi_result;
-    delete[] pi_this;
-    delete[] pi_other;
 
 
+    cout<<(CNumber(379)-CNumber(999)).str_str()<<endl;
+    cout<<(CNumber(379)+CNumber(-999)).str_str()<<endl;
+    cout<<(CNumber(1000)-CNumber(22)).str_str()<<endl;
+    cout<<(CNumber(999)+CNumber(1)).str_str()<<endl;
+    cout<<(CNumber(37)*CNumber(-11)).str_str()<<endl;
+    cout<<(CNumber(-99)*CNumber(-2)).str_str()<<endl;
+    cout<<(CNumber(121)*CNumber(3012)).str_str()<<endl;
+    cout<<(CNumber(INT_MAX)*CNumber(INT_MAX)).str_str()<<endl;
+    cout<<(CNumber(364452)/CNumber(13)).str_str()<<endl;
+    cout<<(CNumber(3448182)/CNumber(-123)).str_str()<<endl;
+    cout<<(CNumber(-89998)/CNumber(-7777)).str_str()<<endl;
 
-    CNumber c1 = 76;
-    CNumber c2 = 1423;
-
-
-
-    cout<<(c2/c1).str_str()<<endl;
+    CNumber c_test(128);
+    c_test^=4;
+    cout<<"c_test: "<<c_test.str_str()<<endl;
 
 }
