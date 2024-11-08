@@ -18,6 +18,8 @@ add_executable(programy_c___tep main.cpp
         src/Zad3/CTree.h
         src/Zad3/Operators.cpp
         src/Zad3/Operators.h
+        src/Zad3/ONPgenerator.cpp
+        src/Zad3/ONPgenerator.h
 )
 
 
