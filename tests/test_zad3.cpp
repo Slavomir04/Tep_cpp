@@ -6,7 +6,6 @@
 #include <string>
 #include <cmath>
 #include "../src/Zad3/CNode.h"
-#include "../src/Zad3/RNPgenerator.h"
 TEST(Operators, eRecognizeType) {
     /*
      PLUS,
@@ -47,7 +46,7 @@ TEST(Operators,bIsDigit) {
     EXPECT_EQ(Operators::bIsDigit("10"),true);
     EXPECT_EQ(Operators::bIsDigit("10123.123121231"),true);
     EXPECT_EQ(Operators::bIsDigit("0.123121231"),true);
-    EXPECT_EQ(Operators::bIsDigit("0.0"),false);
+    EXPECT_EQ(Operators::bIsDigit("0.0"),true);
     EXPECT_EQ(Operators::bIsDigit(".0"),false);
     EXPECT_EQ(Operators::bIsDigit("."),false);
     EXPECT_EQ(Operators::bIsDigit(""),false);
@@ -55,6 +54,7 @@ TEST(Operators,bIsDigit) {
     EXPECT_EQ(Operators::bIsDigit("0001"),false);
     EXPECT_EQ(Operators::bIsDigit("000"),false);
 }
+
 
 
 

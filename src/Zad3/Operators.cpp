@@ -17,8 +17,8 @@ double Operators::dExecuteOperation(Type type, double d_arg1, double d_arg2) {
             d_result = d_arg1 * d_arg2;
         break;
         case DIVIDE:
-            if(d_arg2==0) {
-                d_result = d_arg1;
+            if(d_arg2==0) { //FAIL
+                d_result = cstZad3::d_DIVIDE_BY_ZERO_FAIL;
             }else {
                 d_result = d_arg1 / d_arg2;
             }
@@ -38,42 +38,39 @@ double Operators::dExecuteOperation(Type type, double d_arg1, double d_arg2) {
 
 Operators::Type Operators::eRecognizeType(const std::string &str_operator) {
     Type e_result;
-    if(str_operator.size()==1){
-        switch (str_operator[0]) {
-            case '+':
-                e_result=PLUS;
-            break;
-            case '-':
-                e_result=MINUS;
-            break;
-            case '*':
-                e_result=MULL;
-            break;
-            case '/':
-                e_result=DIVIDE;
-            break;
-            case '(':
-                e_result=BRACKET_LEFT;
-                break;
-            case ')':
-                e_result=BRACKET_RIGHT;
-                break;
-            default:
-                e_result = ('0'<=str_operator[0] && str_operator[0]<='9')?NUMBER:UNKNOWN;
-                break;
+    if(!bIsDigit(str_operator)) {
+        if (str_operator.size() == 1) {
+            switch (str_operator[0]) {
+                case '+':
+                    e_result = PLUS;
+                    break;
+                case '-':
+                    e_result = MINUS;
+                    break;
+                case '*':
+                    e_result = MULL;
+                    break;
+                case '/':
+                    e_result = DIVIDE;
+                    break;
+                default:
+                    e_result = UNKNOWN;
+                    break;
+            }
+            if(('a' <= str_operator[0] && str_operator[0]<='z') || ('A' <= str_operator[0] && str_operator[0]<='Z')){
+                e_result = variable;
+            }
+        } else if (str_operator.size() == 3) {
+            if (str_operator == "cos") {
+                e_result = COS;
+            } else if (str_operator == "sin") {
+                e_result = SIN;
+            } else {
+                e_result = UNKNOWN;
+            }
         }
-    }else if(str_operator.size()==3){
-        if(str_operator == "cos"){
-            e_result=COS;
-        }else if(str_operator == "sin") {
-            e_result = SIN;
-        }else{
-            e_result=UNKNOWN;
-        }
-    }else if(!str_operator.empty() && '0'<=str_operator[0] && str_operator[0]<='9' && bIsDigit(str_operator)){
-        e_result=NUMBER;
     }else{
-        e_result=UNKNOWN;
+        e_result = NUMBER;
     }
 
 
@@ -104,6 +101,9 @@ std::string Operators::strTypeToString(const Operators::Type &e_type) {
         case NUMBER:
             result="NUMBER";
             break;
+        case variable:
+            result="variable";
+            break;
         default:
             result="UNKNOWN";
     }
@@ -111,12 +111,32 @@ std::string Operators::strTypeToString(const Operators::Type &e_type) {
 }
 
 bool Operators::bIsDigit(const std::string &str_number) {
-    try{
-        double  d = std::stod(str_number);
-        return true;
-    }catch(...){
-        return false;
+    bool decimalPointFound = false;
+    bool digitFound = false;
+    size_t start = 0;
+
+    // Obsługa znaku minus na początku liczby
+    if (str_number[0] == '-') {
+        if (str_number.size() == 1) {
+            return false; // "-" nie jest liczbą
+        }
+        start = 1;
     }
+
+    for (size_t i = start; i < str_number.size(); ++i) {
+        if (std::isdigit(str_number[i])) {
+            digitFound = true;
+        } else if (str_number[i] == '.') {
+            if (decimalPointFound) {
+                return false; // Znaleziono więcej niż jedną kropkę
+            }
+            decimalPointFound = true;
+        } else {
+            return false; // Znak nie jest cyfrą ani kropką
+        }
+    }
+
+    return digitFound;
 }
 
 double Operators::dGetDigit(const std::string &str_number) {
@@ -129,7 +149,7 @@ int Operators::iGetArgCount(const Operators::Type &type) {
         i_result=2;
     }else if(type==SIN || type==COS){
         i_result=1;
-    }else if(type==NUMBER){
+    }else if(type==NUMBER || type==variable){
         i_result=0;
     } else{
         i_result=-1;

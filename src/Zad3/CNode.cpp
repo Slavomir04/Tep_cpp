@@ -16,6 +16,14 @@ CNode::CNode(Operators::Type e_operator,double d_value) {
     this->d_value = d_value;
     vSetDefaultFill();
 }
+CNode::CNode(const CNode &pc_other) {
+    vFirstInit();
+    this->e_operator = pc_other.e_operator;
+    this->d_value = pc_other.d_value;
+    this->c_name=pc_other.c_name;
+    this->b_is_set=pc_other.b_is_set;
+    vSetDefaultFill();
+}
 
 CNode::~CNode() {
     delete pc_next_left;
@@ -51,6 +59,8 @@ Operators::Type CNode::eGetType() {
 
 void CNode::vFirstInit() {
     this->e_operator = Operators::UNKNOWN;
+    this->b_is_set= false;
+    this->c_name=0;
     this->d_value=0;
     this->i_counter_left=0;
     this->i_counter_right=0;
@@ -73,14 +83,10 @@ int CNode::iGetFillSize() {
     return i_counter_left+i_counter_right;
 }
 
-CNode::CNode(const CNode &pc_other) {
-    vFirstInit();
-    this->e_operator = pc_other.e_operator;
-    this->d_value = pc_other.d_value;
-    vSetDefaultFill();
-}
+
 
 void CNode::vSetDefaultFill() {
+    /*
     if(e_operator == Operators::PLUS||e_operator == Operators::MINUS||e_operator == Operators::MULL||e_operator == Operators::DIVIDE){
         this->i_counter_left=1;
         this->i_counter_right=1;
@@ -91,6 +97,39 @@ void CNode::vSetDefaultFill() {
         this->i_counter_left=0;
         this->i_counter_right=0;
     }
+     */
+    int i_arg_count = Operators::iGetArgCount(e_operator);
+    switch (i_arg_count) {
+        case 2:
+            this->i_counter_left=1;
+            this->i_counter_right=1;
+            break;
+        case 1:
+            this->i_counter_left=1;
+            this->i_counter_right=0;
+            break;
+        default:
+            this->i_counter_left=0;
+            this->i_counter_right=0;
+            break;
+    }
+}
+
+bool CNode::bIsSet() {
+    return b_is_set;
+}
+
+void CNode::vSet(double d_value) {
+    this->d_value=d_value;
+    this->b_is_set= true;
+}
+
+char CNode::cGetName() {
+    return c_name;
+}
+
+void CNode::vSetName(char c_name) {
+    this->c_name=c_name;
 }
 
 

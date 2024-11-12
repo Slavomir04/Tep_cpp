@@ -5,7 +5,7 @@
 
 #ifndef CONSTANS_H
 #define CONSTANS_H
-namespace cstZad3 {
+namespace cstZad2 {
     const int i_NUMBER_DEFAULT_LENGTH = 10;
     const int i_SYSTEM = 10;
     const int INT_MAXIMUM = INT_MAX;

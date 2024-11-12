@@ -21,14 +21,20 @@ public:
     int i_counter_left;
     int i_counter_right;
     int iGetFillSize();
-
+    void vSet(double d_value);
+    bool bIsSet();
+    char cGetName();
+    void vSetName(char c_name);
     private:
-    void vFirstInit();
-    void vSetDefaultFill();
+    char c_name;
+    bool b_is_set;
     double d_value;
     Operators::Type e_operator;
     CNode *pc_next_left;
     CNode *pc_next_right;
+
+    void vFirstInit();
+    void vSetDefaultFill();
 };
 
 

@@ -11,16 +11,16 @@ add_executable(programy_c___tep main.cpp
         src/Zad1/Functions.h
         src/Zad2/CNumber.cpp
         src/Zad2/CNumber.h
-        src/Zad2/Constans.h
+        src/Zad2/ConstansZad2.h
         src/Zad3/CNode.cpp
         src/Zad3/CNode.h
         src/Zad3/CTree.cpp
         src/Zad3/CTree.h
         src/Zad3/Operators.cpp
         src/Zad3/Operators.h
-        src/Zad3/RNPgenerator.cpp
-        src/Zad3/RNPgenerator.h
-        src/Zad3/Constans.h
+        src/Zad3/ConstansZad3.h
+        src/Zad3/CLI.cpp
+        src/Zad3/CLI.h
 )
 
 

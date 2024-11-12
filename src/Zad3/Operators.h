@@ -6,7 +6,7 @@
 #define PROGRAMY_C___TEP_OPERATORS_H
 #include <cmath>
 #include <string>
-
+#include "ConstansZad3.h"
 class Operators {
 public:
     enum Type{
@@ -17,8 +17,7 @@ public:
         SIN,
         COS,
         NUMBER,
-        BRACKET_LEFT,
-        BRACKET_RIGHT,
+        variable,
         UNKNOWN
     };
 

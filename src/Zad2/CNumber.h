@@ -1,7 +1,7 @@
 //
 // Created by slawe on 22.10.2024.
 //
-#include "Constans.h"
+#include "ConstansZad2.h"
 #include<string>
 #include<sstream>
 #ifndef CNUMBER_H
