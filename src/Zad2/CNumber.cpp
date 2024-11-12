@@ -7,7 +7,7 @@
 #include <cmath>
 #include <iostream>
 #include "../Tool.hpp"
-using namespace cst;
+using namespace cstZad3;
 void CNumber::vFirstInit() {
 
     i_length = i_NUMBER_DEFAULT_LENGTH;

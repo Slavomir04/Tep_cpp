@@ -8,6 +8,7 @@
 
 class CNode {
 public:
+    CNode(const CNode &pc_other);
     CNode(Operators::Type e_operator);
     CNode(Operators::Type e_operator,double d_value);
     ~CNode();
@@ -16,12 +17,14 @@ public:
     CNode *pcGetLeft();
     CNode *pcGetRight();
     double dGetValue();
-
+    Operators::Type eGetType();
     int i_counter_left;
     int i_counter_right;
+    int iGetFillSize();
 
     private:
     void vFirstInit();
+    void vSetDefaultFill();
     double d_value;
     Operators::Type e_operator;
     CNode *pc_next_left;

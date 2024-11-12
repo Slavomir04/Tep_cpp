@@ -17,12 +17,17 @@ public:
         SIN,
         COS,
         NUMBER,
+        BRACKET_LEFT,
+        BRACKET_RIGHT,
         UNKNOWN
     };
 
-    static double dExecuteOperation(Type &type, double d_arg1, double d_arg2);
-    static Type eRecognizeType(std::string &str_operator);
-
+    static double dExecuteOperation(Type type, double d_arg1, double d_arg2);
+    static Type eRecognizeType(const std::string &str_operator);
+    static std::string strTypeToString(const Type &e_type);
+    static bool bIsDigit(const std::string &str_number);
+    static double dGetDigit(const std::string &str_number);
+    static int iGetArgCount(const Operators::Type &type);
 private:
 };
 
