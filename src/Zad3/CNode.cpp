@@ -12,6 +12,7 @@ CNode::CNode(Operators::Type e_operator) {
 
 CNode::CNode(Operators::Type e_operator,double d_value) {
     vFirstInit();
+    this->b_is_set= true;
     this->e_operator = e_operator;
     this->d_value = d_value;
     vSetDefaultFill();
@@ -60,8 +61,8 @@ Operators::Type CNode::eGetType() {
 void CNode::vFirstInit() {
     this->e_operator = Operators::UNKNOWN;
     this->b_is_set= false;
-    this->c_name=0;
-    this->d_value=0;
+    this->c_name='?';
+    this->d_value=cstZad3::d_DEFAULT_VALUE_OF_VARIABLE;
     this->i_counter_left=0;
     this->i_counter_right=0;
     this->pc_next_left=nullptr;

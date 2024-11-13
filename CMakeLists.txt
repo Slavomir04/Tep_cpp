@@ -19,8 +19,8 @@ add_executable(programy_c___tep main.cpp
         src/Zad3/Operators.cpp
         src/Zad3/Operators.h
         src/Zad3/ConstansZad3.h
-        src/Zad3/CLI.cpp
-        src/Zad3/CLI.h
+        src/Zad3/CLIZad3.cpp
+        src/Zad3/CLIZad3.h
 )
 
 

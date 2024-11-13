@@ -5,7 +5,7 @@
 #ifndef PROGRAMY_C___TEP_CNODE_H
 #define PROGRAMY_C___TEP_CNODE_H
 #include "Operators.h"
-
+#include "ConstansZad3.h"
 class CNode {
 public:
     CNode(const CNode &pc_other);

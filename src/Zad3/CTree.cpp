@@ -4,13 +4,15 @@
 
 #include "CTree.h"
 
-CTree::CTree(std::string &str_equation) {
+CTree::CTree(const std::string &str_equation) {
     vFirstInit();
     vMakeTree(str_equation);
+    vCheckFailure(pc_root);
 }
 CTree::CTree(const CTree &other) {
     vFirstInit();
     vCopyHelper(other.pc_root, *this);
+    vCheckFailure(pc_root);
 }
 
 CTree::~CTree() {
@@ -37,10 +39,13 @@ double CTree::dCalculate() {
 
 
 
-void CTree::vMakeTree(std::string &str_equasion) { //wszystko rodzielone spacja
+void CTree::vMakeTree(const std::string &str_equasion) { //wszystko rodzielone spacja
     delete pc_root;
     pc_root= nullptr;
     std::stringstream  ss_stream;
+
+
+
     for(int i=0; i < str_equasion.size(); i++){
         if(str_equasion[i] == ' '){
             if(!ss_stream.str().empty()) {
@@ -60,13 +65,13 @@ void CTree::vMakeTree(std::string &str_equasion) { //wszystko rodzielone spacja
                 if (i_fill_size > 0) {
                     pi_temp = new CNode(type);
                 } else if (i_fill_size == 0){
-                    if(Operators::bIsDigit(str_equasion)) {
+                    if(Operators::bIsDigit(ss_stream.str())) {
                         double d_value = Operators::dGetDigit(ss_stream.str());
                         pi_temp = new CNode(type, d_value);
                     }else{
                         pi_temp = new CNode(type);
                         if(type == Operators::Type::variable){
-                            pi_temp->vSetName(str_equasion[i]);
+                            pi_temp->vSetName(ss_stream.str()[0]);
                         }
                     }
                 }
@@ -93,7 +98,7 @@ void CTree::vMakeTree(std::string &str_equasion) { //wszystko rodzielone spacja
         if (i_fill_size > 0) {
             pi_temp = new CNode(type);
         } else if (i_fill_size == 0){
-            if(Operators::bIsDigit(str_equasion)) {
+            if(Operators::bIsDigit(ss_stream.str())) {
                 double d_value = Operators::dGetDigit(ss_stream.str());
                 pi_temp = new CNode(type, d_value);
             }else{
@@ -110,6 +115,7 @@ void CTree::vMakeTree(std::string &str_equasion) { //wszystko rodzielone spacja
             delete pi_temp;
         }
     }
+
 }
 double CTree::dCalculationHelper(CNode *pc_node) {
     double d_result;
@@ -171,18 +177,22 @@ double CTree::dCalculationHelper(CNode *pc_node) {
                     // this->str_failure_ += Operators::strTypeToString(pc_node->eGetType()) + " ";
                     vAddCalculateFailure(pc_node->eGetType());
                     double d_arg1 = dCalculationHelper(pc_node->pcGetLeft());
-                    double d_arg2 = 0;
+                    double d_arg2 = cstZad3::d_DEFAULT_VALUE_OF_VARIABLE;
                     d_result = Operators::dExecuteOperation(pc_node->eGetType(), d_arg1, d_arg2);
                 } else if (pc_node->pcGetRight() != nullptr) {
                     //this->str_failure_ += Operators::strTypeToString(pc_node->eGetType()) + " ";
                     vAddCalculateFailure(pc_node->eGetType());
-                    double d_arg1 = dCalculationHelper(pc_node->pcGetLeft());
-                    double d_arg2 = 0;
+                    double d_arg1 = cstZad3::d_DEFAULT_VALUE_OF_VARIABLE;
+                    double d_arg2 = dCalculationHelper(pc_node->pcGetRight());
                     d_result = Operators::dExecuteOperation(pc_node->eGetType(), d_arg1, d_arg2);
                 } else {
                     //  this->str_failure_ += Operators::strTypeToString(pc_node->eGetType()) + " ";
+
                     vAddCalculateFailure(pc_node->eGetType());
-                    d_result = 0;
+
+                    double d_arg1 = cstZad3::d_DEFAULT_VALUE_OF_VARIABLE;
+                    double d_arg2 = cstZad3::d_DEFAULT_VALUE_OF_VARIABLE;
+                    d_result = Operators::dExecuteOperation(pc_node->eGetType(), d_arg1, d_arg2);
                 }
                 break;
             case 1:
@@ -192,7 +202,8 @@ double CTree::dCalculationHelper(CNode *pc_node) {
                 } else {
                     //   this->str_failure_ += Operators::strTypeToString(pc_node->eGetType()) + " ";
                     vAddCalculateFailure(pc_node->eGetType());
-                    d_result = 0;
+                    double d_arg = cstZad3::d_DEFAULT_VALUE_OF_VARIABLE;
+                    d_result = Operators::dExecuteOperation(pc_node->eGetType(), d_arg, 0);
                 }
                 break;
             case 0:
@@ -252,11 +263,22 @@ bool CTree::bAddNode(CNode *pc_node) {
 }
 
 std::string CTree::
-strHelper(CNode* pc_node) {
+strHelper(CNode* pc_node,bool b_is_completed) {
     std::string str_type = Operators::strTypeToString(pc_node->eGetType());
     Operators::Type e_operator = pc_node->eGetType();
 
+
     std::stringstream ss_stream;
+
+    std::string str_substitute;
+    if(b_is_completed){
+        ss_stream<<cstZad3::d_DEFAULT_VALUE_OF_VARIABLE;
+        str_substitute = ss_stream.str();
+        ss_stream=std::stringstream();
+    }else{
+        str_substitute.push_back(pc_node->cGetName());
+    }
+
     ss_stream<<"(";
 
     switch (Operators::iGetArgCount(e_operator)) {
@@ -264,37 +286,38 @@ strHelper(CNode* pc_node) {
             if(pc_node->pcGetLeft()!= nullptr && pc_node->pcGetRight()!= nullptr){
 
                 //   return strHelper(pc_node->pcGetLeft()) + str_type + strHelper(pc_node->pcGetRight());
-                ss_stream<<strHelper(pc_node->pcGetLeft())<<str_type<<strHelper(pc_node->pcGetRight());
+                ss_stream<<strHelper(pc_node->pcGetLeft(),b_is_completed)<<str_type<<strHelper(pc_node->pcGetRight(),b_is_completed);
             }else if(pc_node->pcGetLeft()!= nullptr){
 
                 // return strHelper(pc_node->pcGetLeft()) + str_type + "?";
-                ss_stream<<strHelper(pc_node->pcGetLeft())<<str_type<<"?";
+                ss_stream<<strHelper(pc_node->pcGetLeft(),b_is_completed)<<str_type<<str_substitute;
             }else if(pc_node->pcGetRight()!= nullptr){
 
                 // return "?" + str_type + strHelper(pc_node->pcGetRight());
-                ss_stream<<"?"<<str_type<<strHelper(pc_node->pcGetRight());
+                ss_stream<<str_substitute<<str_type<<strHelper(pc_node->pcGetRight(),b_is_completed);
             }else{
-                ss_stream<<"?"<<str_type<<"?";
+                ss_stream<<str_substitute<<str_type<<str_substitute;
                 //  return "?"+str_type+"?";
             }
             break;
         case 1:
             if(pc_node->pcGetLeft()!= nullptr){
                 //  return str_type + "(" + strHelper(pc_node->pcGetLeft()) + ")";
-                ss_stream<<str_type<<"("<<strHelper(pc_node->pcGetLeft())<<")";
+                ss_stream<<str_type<<"("<<strHelper(pc_node->pcGetLeft(),b_is_completed)<<")";
             }else{
                 // return str_type +"(?)";
-                ss_stream<<str_type<<"(?)";
+                ss_stream<<str_type<<"("<<str_substitute<<")";
             }
             break;
         default:
-
-            if(pc_node->bIsSet()){
+            if(pc_node->bIsSet() && b_is_completed){
                 ss_stream<<pc_node->dGetValue();
-            }else if(pc_node->cGetName()!=0){
-                ss_stream << pc_node->cGetName();
             }else{
-                ss_stream << Operators::strTypeToString(e_operator);
+                if(e_operator == Operators::Type::NUMBER){
+                    ss_stream<<pc_node->dGetValue();
+                }else {
+                    ss_stream << pc_node->cGetName();
+                }
             }
 
             break;
@@ -305,9 +328,12 @@ strHelper(CNode* pc_node) {
 }
 
 std::string CTree::str_str() {
+    return str_str(false);
+}
+std::string CTree::str_str(bool b_is_completed) {
     std::string str_result;
     if(pc_root!= nullptr) {
-       str_result = strHelper(pc_root);
+        str_result = strHelper(pc_root, b_is_completed);
     }else{
         str_result ="";
     }
@@ -352,15 +378,16 @@ CTree CTree::operator+(const CTree &other) {
 }
 
 void CTree::vCopyHelper(CNode *pc_node, CTree &c_Tree_copy) { //kopiuje kazdy lisc po kolei
-    CNode* pc_copy = new CNode(*pc_node);
-    if( !c_Tree_copy.bAddNode(pc_copy)){
-        c_Tree_copy.vAddFailure(pc_copy->eGetType());
-        delete pc_copy;
-    }else {
-        if (pc_node->pcGetLeft() != nullptr)vCopyHelper(pc_node->pcGetLeft(), c_Tree_copy);
-        if (pc_node->pcGetRight() != nullptr)vCopyHelper(pc_node->pcGetRight(), c_Tree_copy);
+    if(pc_node != nullptr) {
+        CNode *pc_copy = new CNode(*pc_node);
+        if (!c_Tree_copy.bAddNode(pc_copy)) {
+            c_Tree_copy.vAddFailure(pc_copy->eGetType());
+            delete pc_copy;
+        } else {
+            if (pc_node->pcGetLeft() != nullptr)vCopyHelper(pc_node->pcGetLeft(), c_Tree_copy);
+            if (pc_node->pcGetRight() != nullptr)vCopyHelper(pc_node->pcGetRight(), c_Tree_copy);
+        }
     }
-
 }
 
 
@@ -370,8 +397,7 @@ CTree::CTree() {
 
 void CTree::operator=(const CTree &other) {
     delete this->pc_root;
-    pc_root = nullptr;
-    str_failure_ = "";
+    vFirstInit();
     vCopyHelper(other.pc_root,*this);
 }
 
@@ -387,21 +413,52 @@ bool CTree::bSetVariable(char c_name,double d_value) {
 
 bool CTree::bSetHelper(CNode *pc_node,char c_name,double d_value) {
     bool b_result= false;
-    if(pc_node->eGetType()==Operators::Type::variable && pc_node->cGetName() == c_name){
+
+    if(pc_node->eGetType()==Operators::Type::variable && pc_node->cGetName() == c_name) {
         pc_node->vSet(d_value);
-        b_result= true;
-    }else{
-        if(pc_node->pcGetLeft()!= nullptr){
-            bool b_temp= bSetHelper(pc_node->pcGetLeft(),c_name,d_value);
-            b_result = b_temp||b_result;
-        }
-        if(pc_node->pcGetRight()!= nullptr){
-            bool b_temp= bSetHelper(pc_node->pcGetRight(),c_name,d_value);
-            b_result = b_temp||b_result;
-        }
+        b_result = true;
     }
+
+    if(pc_node->pcGetLeft()!= nullptr){
+        bool b_temp= bSetHelper(pc_node->pcGetLeft(),c_name,d_value);
+        b_result = b_temp||b_result;
+    }
+    if(pc_node->pcGetRight()!= nullptr){
+        bool b_temp= bSetHelper(pc_node->pcGetRight(),c_name,d_value);
+        b_result = b_temp||b_result;
+    }
+
     return b_result;
 }
+
+void CTree::vCheckFailure(CNode* pc_node) {
+    if(pc_node!= nullptr){
+        bool b_is_failed= false;
+        if(pc_node->i_counter_left>0){
+            if(pc_node->pcGetLeft()!= nullptr){
+                vCheckFailure(pc_node->pcGetLeft());
+            }else{
+                b_is_failed= true;
+            }
+        }
+        if(pc_node->i_counter_right>0){
+            if(pc_node->pcGetRight()!= nullptr){
+                vCheckFailure(pc_node->pcGetRight());
+            }else{
+                b_is_failed= true;
+            }
+        }
+        if(b_is_failed){
+            vAddFailure(pc_node->eGetType());
+        }
+    }
+}
+
+
+
+
+
+
 
 
 

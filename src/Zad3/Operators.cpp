@@ -18,7 +18,7 @@ double Operators::dExecuteOperation(Type type, double d_arg1, double d_arg2) {
         break;
         case DIVIDE:
             if(d_arg2==0) { //FAIL
-                d_result = cstZad3::d_DIVIDE_BY_ZERO_FAIL;
+                d_result = cstZad3::d_DEFAULT_VALUE_OF_VARIABLE;
             }else {
                 d_result = d_arg1 / d_arg2;
             }
@@ -109,6 +109,29 @@ std::string Operators::strTypeToString(const Operators::Type &e_type) {
     }
     return result;
 }
+Operators::Type Operators::eStringToType(const std::string &str_type) {
+    Operators::Type e_type;
+    if(str_type == "+"){
+        e_type=Operators::Type::PLUS;
+    }else if(str_type == "-"){
+        e_type=Operators::Type::MINUS;
+    }else if(str_type == "*"){
+        e_type=Operators::Type::MULL;
+    }else if(str_type == "/"){
+        e_type=Operators::Type::DIVIDE;
+    }else if(str_type == "sin"){
+        e_type=Operators::Type::SIN;
+    }else if(str_type == "cos"){
+        e_type=Operators::Type::COS;
+    }else if(str_type == "NUMBER"){
+        e_type=Operators::Type::NUMBER;
+    }else if(str_type == "variable"){
+        e_type=Operators::Type::variable;
+    }else{
+        e_type=Operators::Type::UNKNOWN;
+    }
+    return e_type;
+}
 
 bool Operators::bIsDigit(const std::string &str_number) {
     bool decimalPointFound = false;
@@ -156,4 +179,7 @@ int Operators::iGetArgCount(const Operators::Type &type) {
     }
     return i_result;
 }
+
+
+
 
