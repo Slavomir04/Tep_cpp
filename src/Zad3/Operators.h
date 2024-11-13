@@ -6,7 +6,7 @@
 #define PROGRAMY_C___TEP_OPERATORS_H
 #include <cmath>
 #include <string>
-#include <strstream>
+#include <sstream>
 #include "ConstansZad3.h"
 class Operators {
 public:

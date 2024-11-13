@@ -134,36 +134,41 @@ Operators::Type Operators::eStringToType(const std::string &str_type) {
 }
 
 bool Operators::bIsDigit(const std::string &str_number) {
-    bool decimalPointFound = false;
-    bool digitFound = false;
-    size_t start = 0;
+    bool b_dot_seen = false;
+    bool b_digit_seen = false;
+    int i_start = 0;
 
-    // Obsługa znaku minus na początku liczby
+
     if (str_number[0] == '-') {
         if (str_number.size() == 1) {
-            return false; // "-" nie jest liczbą
+            return false;
         }
-        start = 1;
+        i_start = 1;
     }
 
-    for (size_t i = start; i < str_number.size(); ++i) {
+    for (size_t i = i_start; i < str_number.size(); ++i) {
         if (std::isdigit(str_number[i])) {
-            digitFound = true;
+            b_digit_seen = true;
         } else if (str_number[i] == '.') {
-            if (decimalPointFound) {
-                return false; // Znaleziono więcej niż jedną kropkę
+            if (b_dot_seen) {
+                return false;
             }
-            decimalPointFound = true;
+            b_dot_seen = true;
         } else {
-            return false; // Znak nie jest cyfrą ani kropką
+            return false;
         }
     }
 
-    return digitFound;
+    return b_digit_seen;
 }
 
 double Operators::dGetDigit(const std::string &str_number) {
-    return std::stod(str_number);
+    //return std::stod(str_number);
+    std::stringstream ss_stream;
+    ss_stream<<str_number;
+    double d_result=0;
+    ss_stream>>d_result;
+    return d_result;
 }
 
 int Operators::iGetArgCount(const Operators::Type &type) {
