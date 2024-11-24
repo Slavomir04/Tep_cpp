@@ -9,6 +9,7 @@
 #include "Operators.h"
 #include "ConstansZad3.h"
 #include <sstream>
+#define DIVIDE_BY_ZERO "/0"
 class CTree {
 public:
     CTree(const std::string &str_equation);

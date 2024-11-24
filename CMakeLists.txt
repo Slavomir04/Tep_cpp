@@ -21,6 +21,13 @@ add_executable(programy_c___tep main.cpp
         src/Zad3/ConstansZad3.h
         src/Zad3/CLIZad3.cpp
         src/Zad3/CLIZad3.h
+        src/Zad4/Functions.cpp
+        src/Zad4/Functions.h
+        src/Zad4/CResult.cpp
+        src/Zad4/CResult.h
+        src/Zad4/CError.cpp
+        src/Zad4/CError.h
+        src/Zad4/ConstansZad4.h
 )
 
 

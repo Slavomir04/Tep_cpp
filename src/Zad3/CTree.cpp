@@ -171,7 +171,9 @@ double CTree::dCalculationHelper(CNode *pc_node) {
                     double d_arg2 = dCalculationHelper(pc_node->pcGetRight());
                     d_result = Operators::dExecuteOperation(pc_node->eGetType(), d_arg1, d_arg2);
                     if(pc_node->eGetType()==Operators::Type::DIVIDE && d_arg2==0){
-                        vAddCalculateFailure(pc_node->eGetType());
+                       // vAddCalculateFailure(pc_node->eGetType());
+                       this->str_Calculation_Failure_+=DIVIDE_BY_ZERO;
+                       this->str_Calculation_Failure_+=" ";
                     }
                 } else if (pc_node->pcGetLeft() != nullptr) {
                     // this->str_failure_ += Operators::strTypeToString(pc_node->eGetType()) + " ";
@@ -453,6 +455,10 @@ void CTree::vCheckFailure(CNode* pc_node) {
         }
     }
 }
+
+
+
+
 
 
 

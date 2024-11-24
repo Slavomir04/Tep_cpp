@@ -21,7 +21,6 @@ public:
         variable,
         UNKNOWN
     };
-
     static double dExecuteOperation(Type type, double d_arg1, double d_arg2);
     static Type eRecognizeType(const std::string &str_operator);
     static std::string strTypeToString(const Type &e_type);
