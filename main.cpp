@@ -3,6 +3,7 @@
 #include "src/Zad4/Saver.h"
 #include "src/Zad4/CResult.h"
 #include "src/Zad4/Functions.h"
+#include <filesystem>
 using namespace std;
 
 void showTree(CTree* tree){
@@ -16,10 +17,13 @@ void showTree(CTree* tree){
 
 int main() {
 
-    string path = "D:\\Programownie\\Clion projekty\\Tep_cpp\\src\\Zad4\\file123456789.txt";
+
+
+    string path = "../src/Zad4/file123456789.txt"; //relative path jest w cmake-build-debug
     Saver saver(path);
     CResult<CTree,CError> c_result = rGetTree("/ * + + *");
     if(!saver.bSave(c_result))cerr<<"nie dziala!";
+
 
 }
 
