@@ -6,6 +6,8 @@
 #define PROGRAMY_C___TEP_CNODE_H
 #include "Operators.h"
 #include "ConstansZad3.h"
+#include "CTree.h"
+class CTree;
 class CNode {
 public:
     CNode(const CNode &pc_other);
@@ -18,14 +20,15 @@ public:
     CNode *pcGetRight();
     double dGetValue();
     Operators::Type eGetType();
-    int i_counter_left;
-    int i_counter_right;
+
     int iGetFillSize();
     void vSet(double d_value);
     bool bIsSet();
     char cGetName();
     void vSetName(char c_name);
     private:
+    int i_counter_left;
+    int i_counter_right;
     char c_name;
     bool b_is_set;
     double d_value;
@@ -35,6 +38,8 @@ public:
 
     void vFirstInit();
     void vSetDefaultFill();
+
+    friend class CTree;
 };
 
 

@@ -41,10 +41,29 @@ FetchContent_MakeAvailable(googletest)
 
 
 add_executable(test_zad3
-        tests/test_zad3.cpp
+        tests/test.cpp
+        src/Zad1/CTable.hpp
+        src/Tool.hpp
+        src/Zad1/Functions.h
+        src/Zad2/CNumber.cpp
+        src/Zad2/CNumber.h
+        src/Zad2/ConstansZad2.h
         src/Zad3/CNode.cpp
+        src/Zad3/CNode.h
         src/Zad3/CTree.cpp
+        src/Zad3/CTree.h
         src/Zad3/Operators.cpp
+        src/Zad3/Operators.h
+        src/Zad3/ConstansZad3.h
+        src/Zad3/CLIZad3.cpp
+        src/Zad3/CLIZad3.h
+        src/Zad4/Functions.cpp
+        src/Zad4/Functions.h
+        src/Zad4/CResult.cpp
+        src/Zad4/CResult.h
+        src/Zad4/CError.cpp
+        src/Zad4/CError.h
+        src/Zad4/ConstansZad4.h
 )
 
 

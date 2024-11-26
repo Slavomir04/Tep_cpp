@@ -10,6 +10,7 @@
 #include "ConstansZad3.h"
 #include <sstream>
 #define DIVIDE_BY_ZERO "/0"
+class CNode;
 class CTree {
 public:
     CTree(const std::string &str_equation);
@@ -21,6 +22,7 @@ public:
     CTree operator+(const CTree& other);
     void operator=(const CTree& other);
     std::string str_str();
+    std::string str_str_autofill();
     std::string str_str(bool b_is_completed);
     std::string strFailure();
     std::string strCalculationFailure();

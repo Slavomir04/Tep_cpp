@@ -6,6 +6,8 @@
 #include <string>
 #include <cmath>
 #include "../src/Zad3/CNode.h"
+#include "../src/Zad4/CResult.h"
+#include "../src/Zad4/CError.h"
 TEST(Operators, eRecognizeType) {
     /*
      PLUS,
@@ -69,6 +71,22 @@ TEST(CNode,destructor){
         EXPECT_EQ(array[i],nullptr);
     }
 }
+
+TEST(CResult,constructor){
+    CResult<double,CError> c_1(5);
+    CResult<double,CError> copy_1(5);
+    ASSERT_EQ(c_1.cGetValue(),copy_1.cGetValue());
+    ASSERT_EQ(c_1.bIsSuccess(),copy_1.bIsSuccess());
+
+    CResult<double,CError> c_2 = CResult<double, CError>::cOk(5.0);
+    CResult<double,CError> copy_2 = c_2;
+    ASSERT_EQ(c_2.cGetValue(),copy_2.cGetValue());
+    ASSERT_EQ(c_2.bIsSuccess(),true);
+    ASSERT_EQ(c_2.bIsSuccess(),copy_2.bIsSuccess());
+
+
+}
+
 
 
 

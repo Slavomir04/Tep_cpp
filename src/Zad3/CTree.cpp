@@ -332,6 +332,9 @@ strHelper(CNode* pc_node,bool b_is_completed) {
 std::string CTree::str_str() {
     return str_str(false);
 }
+std::string CTree::str_str_autofill() {
+    return str_str(true);
+}
 std::string CTree::str_str(bool b_is_completed) {
     std::string str_result;
     if(pc_root!= nullptr) {
@@ -455,6 +458,8 @@ void CTree::vCheckFailure(CNode* pc_node) {
         }
     }
 }
+
+
 
 
 
