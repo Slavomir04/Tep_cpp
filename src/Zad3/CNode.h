@@ -26,7 +26,7 @@ public:
     bool bIsSet();
     char cGetName();
     void vSetName(char c_name);
-    private:
+private:
     int i_counter_left;
     int i_counter_right;
     char c_name;

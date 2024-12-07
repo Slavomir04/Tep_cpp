@@ -116,6 +116,7 @@ void CTree::vMakeTree(const std::string &str_equasion) { //wszystko rodzielone s
         }
     }
 
+
 }
 double CTree::dCalculationHelper(CNode *pc_node) {
     double d_result;
@@ -404,6 +405,7 @@ void CTree::operator=(const CTree &other) {
     delete this->pc_root;
     vFirstInit();
     vCopyHelper(other.pc_root,*this);
+
 }
 
 bool CTree::bSetVariable(char c_name,double d_value) {
@@ -414,6 +416,14 @@ bool CTree::bSetVariable(char c_name,double d_value) {
         b_result = false;
     }
     return b_result;
+}
+
+int CTree::iGetLeaves() {
+    int result = 0;
+    if(pc_root!= nullptr) {
+        result = iGetLeavesHelpe(pc_root);
+    }
+    return result;
 }
 
 bool CTree::bSetHelper(CNode *pc_node,char c_name,double d_value) {
@@ -457,6 +467,32 @@ void CTree::vCheckFailure(CNode* pc_node) {
             vAddFailure(pc_node->eGetType());
         }
     }
+}
+
+int CTree::iGetLeavesHelpe(CNode *pc_node) {
+    int result=0;
+    if(pc_node!= nullptr) {
+        int i_arg_count = Operators::iGetArgCount(pc_node->eGetType());
+        switch (i_arg_count) {
+            case 2:
+                if(pc_node->pcGetLeft()!= nullptr) {
+                    result += iGetLeavesHelpe(pc_node->pcGetLeft());
+                }
+                if(pc_node->pcGetRight()!= nullptr) {
+                    result += iGetLeavesHelpe(pc_node->pcGetRight());
+                }
+                break;
+            case 1:
+                if(pc_node->pcGetLeft()!= nullptr) {
+                    result += iGetLeavesHelpe(pc_node->pcGetLeft());
+                }
+                break;
+            default:
+                result= 1;
+        }
+
+    }
+    return result;
 }
 
 

@@ -43,7 +43,9 @@ bool bSave(CResult<T, CError> &pc_CResult,const std::string &str_path) {
     }
     return b_result;
 }
-template<>
+
+
+template <>
 bool bSave(CResult<CTree, CError> &pc_CResult,const std::string &str_path) {
     bool b_result = std::filesystem::exists(str_path);
     if(b_result) {
@@ -59,6 +61,31 @@ bool bSave(CResult<CTree, CError> &pc_CResult,const std::string &str_path) {
                 if (!vec.empty()) {
                     for (int i = 0; i < vec.size(); i++) {
                         f_printer << vec[i]->strGetError() << '\n';
+                    }
+                }
+            }
+        }
+        f_printer.close();
+    }
+    return b_result;
+}
+
+
+bool bSave(CResult<int*, int> &pc_CResult,const std::string &str_path) {
+    bool b_result = std::filesystem::exists(str_path);
+    if(b_result) {
+        std::fstream f_printer(str_path,std::ios::app);
+        b_result = f_printer.is_open();
+        if (f_printer) {
+            f_printer << "\n" << str_getTime() << "\n";
+            if(pc_CResult.bIsSuccess()){
+              //  f_printer<<*pc_CResult.cGetValue()<<'\n';
+            }
+            else {
+                std::vector<int *> vec = pc_CResult.vGetErrors();
+                if (!vec.empty()) {
+                    for (int i = 0; i < vec.size(); i++) {
+                        f_printer << *vec[i] << '\n';
                     }
                 }
             }

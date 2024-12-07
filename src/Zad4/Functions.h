@@ -18,7 +18,7 @@
 std::vector<std::string> vecParseStrings(std::string str_line);
 CResult<double,CError> rDivide(double d_up, double d_down);
 CResult<CTree,CError> rGetTree(std::string str_equasion);
-
+CResult<int*,int> rTest(int i_x,int i_y);
 
 
 #endif //PROGRAMY_C___TEP_FUNCTIONS_H

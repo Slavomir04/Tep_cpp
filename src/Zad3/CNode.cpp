@@ -27,17 +27,19 @@ CNode::CNode(const CNode &pc_other) {
 }
 
 CNode::~CNode() {
-    delete pc_next_left;
+    delete pc_next_left; //usuwanie nullptr jest bezpieczne
     delete pc_next_right;
 }
 
 void CNode::pcSetLeft(CNode *pcNewLeft) {
+    delete pc_next_left;
     if(pcNewLeft != nullptr) {
         this->pc_next_left = pcNewLeft;
     }
 }
 
 void CNode::pcSetRight(CNode *pcNewRight) {
+    delete pc_next_right;
     if(pcNewRight != nullptr) {
         this->pc_next_right = pcNewRight;
     }

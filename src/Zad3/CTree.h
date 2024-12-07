@@ -21,12 +21,14 @@ public:
     double dCalculate();
     CTree operator+(const CTree& other);
     void operator=(const CTree& other);
+
     std::string str_str();
     std::string str_str_autofill();
     std::string str_str(bool b_is_completed);
     std::string strFailure();
     std::string strCalculationFailure();
     bool bSetVariable(char c_name,double d_value);
+    int iGetLeaves();
 private:
 
     CNode* pc_root;
@@ -43,6 +45,7 @@ private:
     void vAddCalculateFailure(const Operators::Type &type);
     bool bSetHelper(CNode* pc_node,char c_name,double d_value);
     void vCheckFailure(CNode* pc_node);
+    int iGetLeavesHelpe(CNode* pc_node);
 
 
 };

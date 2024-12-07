@@ -8,7 +8,7 @@
 namespace cstZad4{
     const std::string str_operator_error_left ="operator ";
     const std::string str_operator_error_right =" is not full filled";
-    const std::string str_variable_error = "variable is unfilled";
+    const std::string str_variable_error = "variable problem";
     const std::string str_unknown_error = "UNKNOWN char";
     const std::string str_divide_error = "dividing by zero is prohibited";
     const std::string str_calculation_prefix = "Calculation: ";

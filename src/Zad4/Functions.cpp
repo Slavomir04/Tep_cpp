@@ -97,3 +97,11 @@ CResult<CTree, CError> rGetTree(std::string str_equasion) {
     return vec_error.empty() ? CResult<CTree,CError>::cOk(c_tree) :  CResult<CTree,CError>::cFail(vec_error);
 }
 
+CResult<int *, int> rTest(int i_x, int i_y) {
+    if(i_x + i_y % 2 == 0) {
+        return CResult<int*,int>::cFail(new int(21));
+    }else {
+        return CResult<int*,int>::cOk(new int(12));
+    }
+}
+

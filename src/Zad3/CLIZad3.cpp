@@ -113,7 +113,6 @@ void CLIZad3::vEnterFormula(const std::string &str_formula) {
     this->c_Tree = CTree(str_formula);
     std::string str_failure_temp = c_Tree.strFailure();
     vPrintFormulaFailure(str_failure_temp);
-
     vUpdateTree();
 }
 
@@ -158,6 +157,7 @@ void CLIZad3::vPrint() {
     printf("str: %s\n",c_Tree.str_str().c_str());
     printf("str completed: %s\n",c_Tree.str_str(true).c_str());
     printf("calculation: %.8f\n",c_Tree.dCalculate());
+    printf("leaves: %i\n",c_Tree.iGetLeaves());
     std::string str_failure_temp = c_Tree.strCalculationFailure();
     vPrintCalculationFailure(str_failure_temp);
 }
@@ -173,6 +173,7 @@ void CLIZad3::vPrintFormulaFailure(std::string &str_failure) {
             switch (i_fill) {
                 case 2:
                     printf("blad operatora  (%s) w formule\n",str_temp.c_str());
+
                     break;
                 case 1:
                     printf("blad funkcji (%s) w formule \n",str_temp.c_str());
@@ -221,6 +222,9 @@ void CLIZad3::vPrintCalculationFailure(std::string &str_failure) {
             switch (i_fill) {
                 case 2:
                     printf("blad operatora  (%s) przy liczeniu, bledne argumenty zamieniaja sie w %.8f\n",str_temp.c_str(),cstZad3::d_DEFAULT_VALUE_OF_VARIABLE);
+                    if(e_type == Operators::DIVIDE) {
+                        printf("(przy dzieleniu przez 0, wyrazenie daje 1)\n");
+                    }
                     break;
                 case 1:
                     printf("blad funkcji (%s) przy liczeniu,bledny argument zamieni sie w %.8f \n",str_temp.c_str(),cstZad3::d_DEFAULT_VALUE_OF_VARIABLE);
@@ -242,6 +246,7 @@ void CLIZad3::vPrintCalculationFailure(std::string &str_failure) {
         Operators::Type e_type = Operators::eStringToType(str_temp);
         int i_fill = Operators::iGetArgCount(e_type);
         switch (i_fill) {
+            /*
             case 2:
                 printf("blad operatora  (%s) przy liczeniu\n",str_temp.c_str());
                 break;
@@ -253,6 +258,19 @@ void CLIZad3::vPrintCalculationFailure(std::string &str_failure) {
                     printf("blad zmiennej (%s) przy liczeniu \n",str_temp.c_str());
                 } else{
                     printf("nieznany znak (%s) przy liczeniu\n",str_temp.c_str());
+                }
+                */
+            case 2:
+                printf("blad operatora  (%s) przy liczeniu, bledne argumenty zamieniaja sie w %.8f\n",str_temp.c_str(),cstZad3::d_DEFAULT_VALUE_OF_VARIABLE);
+            break;
+            case 1:
+                printf("blad funkcji (%s) przy liczeniu,bledny argument zamieni sie w %.8f \n",str_temp.c_str(),cstZad3::d_DEFAULT_VALUE_OF_VARIABLE);
+            break;
+            default:
+                if(e_type == Operators::variable){
+                    printf("blad zmiennej (%s) przy liczeniu, zamiana na: %.8f \n",str_temp.c_str(),cstZad3::d_DEFAULT_VALUE_OF_VARIABLE);
+                } else{
+                    printf("nieznany znak (%s) przy liczeniu, zamiana na: %.8f\n",str_temp.c_str(),cstZad3::d_DEFAULT_VALUE_OF_VARIABLE);
                 }
         }
     }

@@ -28,7 +28,7 @@ public:
     static bool bIsDigit(const std::string &str_number);
     static double dGetDigit(const std::string &str_number);
     static int iGetArgCount(const Operators::Type &type);
-    static std::string strGetStrFromDigit(const double d_value);
+    //static std::string strGetStrFromDigit(const double d_value);
 private:
 };
 

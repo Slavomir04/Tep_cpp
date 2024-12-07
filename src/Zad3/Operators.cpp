@@ -146,7 +146,7 @@ bool Operators::bIsDigit(const std::string &str_number) {
         i_start = 1;
     }
 
-    for (size_t i = i_start; i < str_number.size(); ++i) {
+    for (int i = i_start; i < str_number.size(); ++i) {
         if (std::isdigit(str_number[i])) {
             b_digit_seen = true;
         } else if (str_number[i] == '.') {

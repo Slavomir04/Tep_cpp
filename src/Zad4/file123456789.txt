@@ -1,1 +1,23 @@
 
+
+2024-11-27 17:56:07
+((1)+(2))
+
+2024-11-27 18:08:33
+void
+
+2024-11-27 18:08:33
+operator / is not full filled
+Calculation: operator / is not full filled
+
+2024-11-27 18:08:33
+dividing by zero is prohibited
+
+2024-11-27 18:08:51
+void
+
+2024-11-27 18:08:51
+Calculation: dividing by zero is prohibited
+
+2024-11-27 18:08:51
+dividing by zero is prohibited
