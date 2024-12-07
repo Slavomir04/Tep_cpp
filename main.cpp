@@ -4,6 +4,8 @@
 #include "src/Zad4/CResult.h"
 #include "src/Zad4/Functions.h"
 #include "src/Zad4/Saver.h"
+#include "src/Zad5/CMySmartPointer.h"
+#include <utility>
 #include <filesystem>
 using namespace std;
 
@@ -62,35 +64,12 @@ void showModyfikacja(CResult<int*,int> cResult) {
     cout<<'\n';
 }
 
+void test_mypointer(CMySmartPointer<CTree> &pointer){
+    CMySmartPointer<CTree> pointer_2 = pointer;
+    printf("pointer z funkcji:%s\n",(*pointer_2).str_str().c_str());
+}
 
 int main() {
-
-
-
-    string path = "../src/Zad4/file123456789.txt"; //relative path jest w cmake-build-debug
-
-    /*
-    CResult<void,CError> c_result_void(new CError("void"));
-    CResult<CTree,CError> c_result = rGetTree("/ 1 0");
-    CResult<double,CError> c_divide = rDivide(5,0);
-
-    if(!bSave<void>(c_result_void,path))cerr<<"nie dziala!";
-    if(!bSave<CTree>(c_result,path))cerr<<"nie dziala!";
-    if(!bSave<double>(c_divide,path))cerr<<"nie dziala!";
-    */
-
-    CResult<double,CError> c_divide = rDivide(5,1);
-    CResult<double,CError> c_divide_copy = c_divide;
-    showCResult(c_divide);
-    showCResult(c_divide_copy);
-    CResult<int*,int> c_test = rTest(1,-1);
-   CResult<int*,int> c_test_copy = c_test;
-   showModyfikacja(c_test);
-    showModyfikacja(c_test_copy);
-
-   // if(!bSave(c_test,path))cerr<<"nie dziala!";
-
-
 
 
 

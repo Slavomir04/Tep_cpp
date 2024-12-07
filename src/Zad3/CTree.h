@@ -15,13 +15,16 @@ class CTree {
 public:
     CTree(const std::string &str_equation);
     CTree();
-    CTree(const CTree &other);
+    CTree(const CTree &cOther);
+    CTree(CTree &&cOther) noexcept;
     ~CTree();
 
     double dCalculate();
     CTree operator+(const CTree& other);
-    void operator=(const CTree& other);
+    CTree operator+(CTree&& other);
 
+    void operator=(const CTree& other);
+    CTree& operator=(CTree&& cOther) noexcept;
     std::string str_str();
     std::string str_str_autofill();
     std::string str_str(bool b_is_completed);

@@ -9,10 +9,19 @@ CTree::CTree(const std::string &str_equation) {
     vMakeTree(str_equation);
     vCheckFailure(pc_root);
 }
-CTree::CTree(const CTree &other) {
+CTree::CTree(const CTree &cOther) {
     vFirstInit();
-    vCopyHelper(other.pc_root, *this);
+    vCopyHelper(cOther.pc_root, *this);
     vCheckFailure(pc_root);
+}
+CTree::CTree(CTree &&cOther) noexcept{
+    this->pc_root = cOther.pc_root;
+    this->str_failure_ = cOther.str_failure_;
+    this->str_Calculation_Failure_ = cOther.str_Calculation_Failure_;
+
+    cOther.pc_root = nullptr;
+    cOther.str_failure_=std::string();
+    cOther.str_Calculation_Failure_=std::string();
 }
 
 CTree::~CTree() {
@@ -382,6 +391,10 @@ CTree CTree::operator+(const CTree &other) {
     }
     return c_result_tree;
 }
+CTree CTree::operator+(CTree&& other){
+    CTree c_temp = std::move(other);
+    return *this + c_temp;
+}
 
 void CTree::vCopyHelper(CNode *pc_node, CTree &c_Tree_copy) { //kopiuje kazdy lisc po kolei
     if(pc_node != nullptr) {
@@ -406,6 +419,19 @@ void CTree::operator=(const CTree &other) {
     vFirstInit();
     vCopyHelper(other.pc_root,*this);
 
+}
+CTree& CTree::operator=(CTree &&cOther) noexcept{
+
+    delete this->pc_root;
+
+    this->pc_root = cOther.pc_root;
+    this->str_failure_ = cOther.str_failure_;
+    this->str_Calculation_Failure_ = cOther.str_Calculation_Failure_;
+    cOther.pc_root = nullptr;
+    cOther.str_failure_=std::string();
+    cOther.str_Calculation_Failure_=std::string();
+
+    return *this;
 }
 
 bool CTree::bSetVariable(char c_name,double d_value) {
@@ -494,6 +520,9 @@ int CTree::iGetLeavesHelpe(CNode *pc_node) {
     }
     return result;
 }
+
+
+
 
 
 

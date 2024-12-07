@@ -28,6 +28,10 @@ add_executable(programy_c___tep main.cpp
         src/Zad4/CError.cpp
         src/Zad4/CError.h
         src/Zad4/ConstansZad4.h
+        src/Zad5/CMySmartPointer.cpp
+        src/Zad5/CMySmartPointer.h
+        src/Zad5/CRefCounter.cpp
+        src/Zad5/CRefCounter.h
 )
 
 
