@@ -13,6 +13,8 @@ public:
     CMySmartPointer(CMySmartPointer &other);
     ~CMySmartPointer();
     CMySmartPointer& operator=(CMySmartPointer &other);
+    CMySmartPointer& operator=(T& value);
+    CMySmartPointer& operator=(T&& value);
     T& operator*();
     T* operator->();
 private:
@@ -20,6 +22,7 @@ private:
     T* pc_pointer;
     CRefCounter* pc_counter;
 };
+
 
 
 
@@ -51,6 +54,23 @@ CMySmartPointer<T>& CMySmartPointer<T>::operator=(CMySmartPointer &other) {
     }
     return *this;
 }
+
+template<typename T>
+CMySmartPointer<T> & CMySmartPointer<T>::operator=(T& value) {
+    if(pc_counter->iGet()%2==0) {
+        *pc_pointer = value;
+    }
+    return *this;
+}
+
+template<typename T>
+CMySmartPointer<T> & CMySmartPointer<T>::operator=(T &&value) {
+    if(pc_counter->iGet()%2==1) {
+        *pc_pointer = value;
+    }
+    return *this;
+}
+
 template<typename T>
 T &CMySmartPointer<T>::operator*() {
     return(*pc_pointer);

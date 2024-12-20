@@ -392,8 +392,25 @@ CTree CTree::operator+(const CTree &other) {
     return c_result_tree;
 }
 CTree CTree::operator+(CTree&& other){
+    CTree c_result_tree = std::move(other);
+    if(pc_root != nullptr){
+        if(c_result_tree.pc_root->iGetFillSize() == 0){
+            CNode* pc_root_old = c_result_tree.pc_root;
+            c_result_tree.pc_root = new CNode(Operators::Type::PLUS);
+            c_result_tree.pc_root->pcSetLeft(pc_root_old);
+            c_result_tree.pc_root->i_counter_left=0;
+
+
+            vCopyHelper(pc_root,c_result_tree);
+        }else{
+            vCopyHelper(pc_root, c_result_tree);
+        }
+    }
+    return c_result_tree;
+    /*
     CTree c_temp = std::move(other);
     return *this + c_temp;
+    */
 }
 
 void CTree::vCopyHelper(CNode *pc_node, CTree &c_Tree_copy) { //kopiuje kazdy lisc po kolei

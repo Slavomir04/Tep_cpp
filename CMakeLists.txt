@@ -32,6 +32,9 @@ add_executable(programy_c___tep main.cpp
         src/Zad5/CMySmartPointer.h
         src/Zad5/CRefCounter.cpp
         src/Zad5/CRefCounter.h
+        src/miniProjekt/DistanceFunction.h
+        src/miniProjekt/AG_0.cpp
+        src/miniProjekt/AG_0.h
 )
 
 

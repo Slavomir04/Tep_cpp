@@ -15,6 +15,7 @@ void showTree(CTree* tree){
         printf("calculate: %.2f\n", tree->dCalculate());
         printf("failure: %s\n", tree->strFailure().c_str());
         printf("calculation failure: %s\n", tree->strCalculationFailure().c_str());
+        printf("\n\n");
     }
 }
 template<typename T>
@@ -69,11 +70,33 @@ void test_mypointer(CMySmartPointer<CTree> &pointer){
     printf("pointer z funkcji:%s\n",(*pointer_2).str_str().c_str());
 }
 
+
+
+
+using namespace std;
 int main() {
 
+    CMySmartPointer<int> c_ptr(new int(12));
+    cout<<*c_ptr<<endl;
+    c_ptr = 30;
+    cout<<*c_ptr<<endl;
+    int i_val=20;
+    c_ptr=i_val;
+    cout<<*c_ptr<<endl;
+    CMySmartPointer<int> c_copy(c_ptr);
+    c_ptr=21;
+    cout<<*c_ptr<<endl;
+    c_ptr=i_val;
+    cout<<*c_ptr<<endl;
+
+    CTree t1("+ 1 2");
+    CTree t2("+ 1 3");
+    CTree t3 = t1 + std::move(t2);
 
 
-
+    showTree(&t1);
+    showTree(&t2);
+    showTree(&t3);
 
 }
 
