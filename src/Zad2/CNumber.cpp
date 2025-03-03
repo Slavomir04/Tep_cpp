@@ -7,11 +7,11 @@
 #include <cmath>
 #include <iostream>
 #include "../Tool.hpp"
-using namespace cst;
+using namespace cstZad2;
 void CNumber::vFirstInit() {
 
-    i_length = NUMBER_DEFAULT_LENGTH;
-    pi_number = new int[NUMBER_DEFAULT_LENGTH]{};
+    i_length = i_NUMBER_DEFAULT_LENGTH;
+    pi_number = new int[i_NUMBER_DEFAULT_LENGTH]{};
     b_sign = true;
     vTrim();
 }
@@ -20,30 +20,29 @@ CNumber::CNumber() {
     vFirstInit();
 }
 
-CNumber::CNumber(int i_value) {
+CNumber::CNumber(long i_value) {
     vFirstInit();
     vSet(i_value);
 }
 CNumber::CNumber(const CNumber &pc_value_to_copy) {
     vFirstInit();
-    v_Copy(pc_value_to_copy);
+    vCopy(pc_value_to_copy);
 }
 
 CNumber::~CNumber() {
     delete[] pi_number;
 }
 
-void CNumber::vSet(int i_new_value) {
-
+void CNumber::vSet(long l_new_value) {
+    /*
     int i_power=0;
-    long l_new_value = i_new_value;
     long l_log_SYSTEM=1;
-    long l_SYSTEM = (long )SYSTEM;
-    b_sign = i_new_value >= 0;
+    long l_SYSTEM = (long )i_i_SYSTEM;
+    b_sign = l_new_value >= 0;
 
     if(!b_sign)l_new_value = -1 * l_new_value;
 
-    while(i_new_value % l_log_SYSTEM != i_new_value){
+    while(l_new_value % l_log_SYSTEM != l_new_value){
         l_log_SYSTEM *= l_SYSTEM;
         i_power++;
     }
@@ -54,77 +53,140 @@ void CNumber::vSet(int i_new_value) {
 
 
     for(int i=0; i<i_length; i++){
-        l_log_SYSTEM=  l_log_SYSTEM/l_SYSTEM;
-        if(l_log_SYSTEM==0) l_log_SYSTEM=1;
+        l_log_SYSTEM = l_log_SYSTEM/l_SYSTEM;
+        if(l_log_SYSTEM==0){
+            l_log_SYSTEM=1;
+        }
         long l_current_value = l_new_value/l_log_SYSTEM;
-        pi_number[i]=(int)l_current_value;
-        l_new_value-=(l_current_value*l_log_SYSTEM);
+        pi_number[i] = (int)l_current_value;
+        l_new_value -= (l_current_value*l_log_SYSTEM);
+    }
+    */
+    int i_power=0;
+    long l_log_SYSTEM=1;
+    long l_SYSTEM = (long )i_SYSTEM;
+    b_sign = l_new_value >= 0;
+
+    if(!b_sign)l_new_value = -1 * l_new_value;
+
+    while(l_new_value % l_log_SYSTEM != l_new_value &&  l_log_SYSTEM<=INT_MAXIMUM/l_SYSTEM){
+        l_log_SYSTEM *= l_SYSTEM;
+        i_power++;
     }
 
+    delete[] pi_number;
+    i_length = i_power!=0?i_power:1;
+    pi_number = new int[i_length];
 
-}
 
-void CNumber::operator=(const CNumber &pc_new_other) {
-    if(&pc_new_other != this) {
-        v_Copy(pc_new_other);
+    for(int i=0; i<i_length; i++){
+        l_log_SYSTEM = l_log_SYSTEM/l_SYSTEM;
+        if(l_log_SYSTEM==0){
+            l_log_SYSTEM=1;
+        }
+        long l_current_value = l_new_value/l_log_SYSTEM;
+        pi_number[i] = (int)l_current_value;
+        l_new_value -= (l_current_value*l_log_SYSTEM);
     }
 }
 
-CNumber CNumber::operator+(const CNumber &pc_new_other) {
-    if(this->b_sign==pc_new_other.b_sign){
-        return addTwoNumbers(pc_new_other,0);
+void CNumber::operator=(const CNumber &pc_new_value) {
+    if(&pc_new_value != this) {
+        vCopy(pc_new_value);
+    }
+}
+
+CNumber CNumber::operator+(const CNumber &pc_other) {
+    if(this->b_sign == pc_other.b_sign){
+        return cAddTwoNumbers(pc_other, 0);
     }else{
-        if(bIsBigger(pc_new_other,0)){
-            return subtractTwoNumbers(pc_new_other);
+        if(bIsBigger(pc_other, 0)){
+            return cSubtractTwoNumbers(pc_other);
         }else{
-            return pc_new_other.subtractTwoNumbers(*this);
+            return pc_other.cSubtractTwoNumbers(*this);
         }
     }
 }
 
-CNumber CNumber::operator-(const CNumber &pc_new_other) {
-   if(this->b_sign == pc_new_other.b_sign){
-       if(bIsBigger(pc_new_other,0)){
-           return subtractTwoNumbers(pc_new_other);
+CNumber CNumber::operator-(const CNumber &pc_other) {
+   if(this->b_sign == pc_other.b_sign){
+       if(bIsBigger(pc_other, 0)){
+           return cSubtractTwoNumbers(pc_other);
        }else{
-           CNumber temp(pc_new_other.subtractTwoNumbers(*this));
+           CNumber temp(pc_other.cSubtractTwoNumbers(*this));
            temp.b_sign = !temp.b_sign;
            return temp;
        }
    }else{
-       return addTwoNumbers(pc_new_other,0);
+       return cAddTwoNumbers(pc_other, 0);
    }
 }
 
-CNumber CNumber::operator*(const CNumber &pc_new_other) {
-    return multiplyTwoNumbers(pc_new_other);
+CNumber CNumber::operator*(const CNumber &pc_other) {
+    return cMultiplyTwoNumbers(pc_other);
 }
 
-CNumber CNumber::operator/(const CNumber &pc_new_other) {
-    return divideTwoNumbers(pc_new_other);
+CNumber CNumber::operator/(const CNumber &pc_other) {
+    return cDivideTwoNumbers(pc_other);
 }
-
-
 
 void CNumber::operator=(int i_new_value) {
-    CNumber temp = CNumber(i_new_value);
-    return (*this=temp);
+    return (*this=CNumber(i_new_value));
 }
 
-CNumber CNumber::operator+(int i_new_other) {
-    return (*this+CNumber(i_new_other));
+CNumber CNumber::operator+(int i_other) {
+    return (*this+CNumber(i_other));
 }
 
-CNumber CNumber::operator-(int i_new_other) {
-    return (*this-CNumber(i_new_other));
+CNumber CNumber::operator-(int i_other) {
+    return (*this-CNumber(i_other));
 }
 
-CNumber CNumber::operator*(int i_new_other) {
-    return multiplyTwoNumbers(CNumber(i_new_other));
+CNumber CNumber::operator*(int i_other) {
+    return cMultiplyTwoNumbers(CNumber(i_other));
 }
 
-CNumber CNumber::operator/(int i_new_other) {
-    return divideTwoNumbers(CNumber(i_new_other));
+CNumber CNumber::operator/(int i_other) {
+    return cDivideTwoNumbers(CNumber(i_other));
+}
+
+void CNumber::operator^=(int i_new_system) {
+    if(i_new_system<2) {
+        this->vSet(0);
+        this->vTrim();
+    }else {
+        CNumber c_temp(*this);
+
+        CNumber c_system(i_new_system);
+        int counter = 0;
+        while(!(c_temp.i_length==1 && c_temp.pi_number[0]==0)) {
+            c_temp = c_temp / c_system;
+            counter++;
+        }
+        c_temp = CNumber(*this);
+
+        int i_length_result = counter;
+        int* pi_array = new int[counter];
+
+
+        while(!(c_temp.i_length==1 && c_temp.pi_number[0]==0)) {
+            CNumber c_tester = (c_temp/c_system)*c_system;
+            if( c_temp.bIsSame(c_tester)) {
+
+                pi_array[counter-1] = 0;
+            }else {
+
+                pi_array[counter-1] = (c_temp - c_tester).pi_number[0];
+
+            }
+            c_temp = c_temp / c_system;
+            counter--;
+        }
+
+        delete[] pi_number;
+        this->i_length = i_length_result;
+        this->pi_number = pi_array;
+    }
 }
 
 std::string CNumber::str_str() {
@@ -137,21 +199,21 @@ std::string CNumber::str_str() {
     return ss.str();
 }
 
-CNumber CNumber::addTwoNumbers(const CNumber &pc_new_other,int i_displacement) const{
+CNumber CNumber::cAddTwoNumbers(const CNumber &pc_other, int i_displacement) const{
     int* pi_result;
     int i_length_result;
 
-    i_length_result = ((this->i_length > pc_new_other.i_length+i_displacement) ? this->i_length : pc_new_other.i_length+i_displacement)+1;
+    i_length_result = ((this->i_length > pc_other.i_length + i_displacement) ? this->i_length : pc_other.i_length + i_displacement) + 1;
 
     pi_result = new int[i_length_result];
 
-    const int* pi_other=pc_new_other.pi_number;
-    int i_length_other = pc_new_other.i_length;
-    vAddArrays(pi_result,i_length_result,pi_other,i_length_other,i_displacement);
+    const int* pi_other = pc_other.pi_number;
+    int i_length_other = pc_other.i_length;
+    vAddArrays(pi_result,i_length_result,0,pi_other,i_length_other,i_displacement);
 
     CNumber CResult;
-    CResult.i_length = i_length_result;
     delete[] CResult.pi_number;
+    CResult.i_length = i_length_result;
     CResult.pi_number = pi_result;
     CResult.b_sign = this->b_sign;
 
@@ -159,21 +221,21 @@ CNumber CNumber::addTwoNumbers(const CNumber &pc_new_other,int i_displacement) c
     return CResult;
 }
 
-CNumber CNumber::subtractTwoNumbers(const CNumber &pc_new_other) const{
+CNumber CNumber::cSubtractTwoNumbers(const CNumber &pc_other) const{
     int* pi_result;
     int i_length_result;
 
-    i_length_result = (this->i_length > pc_new_other.i_length) ? this->i_length : pc_new_other.i_length;
+    i_length_result = (this->i_length > pc_other.i_length) ? this->i_length : pc_other.i_length;
 
     pi_result = new int[i_length_result];
 
-    const int* pi_other=pc_new_other.pi_number;
-    int i_length_other = pc_new_other.i_length;
+    const int* pi_other=pc_other.pi_number;
+    int i_length_other = pc_other.i_length;
     vSubArrays(pi_result,i_length_result,pi_other,i_length_other);
 
     CNumber CResult;
-    CResult.i_length = i_length_result;
     delete[] CResult.pi_number;
+    CResult.i_length = i_length_result;
     CResult.pi_number = pi_result;
     CResult.b_sign = this->b_sign;
 
@@ -181,8 +243,9 @@ CNumber CNumber::subtractTwoNumbers(const CNumber &pc_new_other) const{
     return CResult;
 }
 
-CNumber CNumber::multiplyTwoNumbers(const CNumber &pc_new_other) const{
-    CNumber temp(pc_new_other);
+CNumber CNumber::cMultiplyTwoNumbers(const CNumber &pc_other) const{
+    /*
+    CNumber temp(pc_other);
     temp.b_sign= true;
     CNumber temp_number_1(1);
     CNumber result(0);
@@ -190,83 +253,81 @@ CNumber CNumber::multiplyTwoNumbers(const CNumber &pc_new_other) const{
         temp = temp - temp_number_1;
         result = result + *this;
     }
-    result.b_sign = this->b_sign || (this->b_sign == pc_new_other.b_sign);
+    result.b_sign =  (this->b_sign == pc_other.b_sign);
+    return result;
+     */
+    bool b_sign_result = this->b_sign == pc_other.b_sign;
+    int i_length_result = this->i_length + pc_other.i_length;
+    int* pi_array_result = new int[i_length_result];
+    const int* pi_number_other = pc_other.pi_number;
+    vMulArrays(pi_array_result,i_length_result,pi_number_other,pc_other.i_length);
+
+    CNumber result;
+    delete[] result.pi_number;
+    result.i_length = i_length_result;
+    result.pi_number = pi_array_result;
+    result.b_sign = b_sign_result;
+    result.vTrim();
     return result;
 }
-CNumber CNumber::divideTwoNumbers(const CNumber &pc_new_other) const {
-    if(pc_new_other.i_length==1 && pc_new_other.pi_number[0]==0){
+CNumber CNumber::cDivideTwoNumbers(const CNumber &pc_other) const {
+    if(pc_other.i_length == 1 && pc_other.pi_number[0] == 0){
         return CNumber(0);
     }else {
 
-        CNumber result(0);
+        CNumber c_result(0);
 
 
-        CNumber zero(0);
-        CNumber one(1);
+        CNumber c_zero(0);
+        CNumber c_one(1);
 
-        CNumber nomiator(*this);
-        nomiator.b_sign = true;
+        CNumber c_nomiator(*this);
+        c_nomiator.b_sign = true;
 
-        CNumber divider(pc_new_other);
-        divider.b_sign = true;
+        CNumber c_divider(pc_other);
+        c_divider.b_sign = true;
 
-        while (nomiator.b_sign && nomiator.bIsBigger(zero, 0)) {
-            nomiator = nomiator - divider;
+        while (c_nomiator.b_sign && c_nomiator.bIsBigger(c_zero, 0)) {
+            c_nomiator = c_nomiator - c_divider;
 
-            if (nomiator.b_sign) {
-                result = result + one;
+            if (c_nomiator.b_sign) {
+                c_result = c_result + c_one;
             }
         }
-        result.b_sign = this->b_sign == pc_new_other.b_sign;
-        return result;
+        c_result.b_sign = this->b_sign == pc_other.b_sign;
+        return c_result;
     }
 }
 
-void CNumber::vAddArrays(int *&pi_result, int i_size_result,const int* &pi_other,const int i_length_other,int i_displacement) const{
-    /*
-    int i_accumulator = 0;
-    int i_shift_this = i_size_result-this->i_length;
-    int i_shift_other = i_size_result-i_length_other;
-    for(int i=i_size_result-1; i>=0; i--) {
-        int i_index_this = i-i_shift_this;
-        int i_index_other = i-i_shift_other;
-        if(i_index_this>=0) {
-            i_accumulator+=pi_number[i_index_this];
-        }
-        if(i_index_other>=0) {
-            i_accumulator+=pi_other[i_index_other];
-        }
-        pi_result[i]=i_accumulator%SYSTEM;
-        i_accumulator/=SYSTEM;
-    }
-     */
+void CNumber::vAddArrays(int* &pi_result, int i_length_result,int i_displacement_this, const int* &pi_other, const int i_length_other, int i_displacement_other) const{
+
 
     int i_accumulator = 0;
 
-    int i_shift_this = i_size_result-this->i_length;
-    int i_shift_other = i_size_result-i_length_other;
+    int i_shift_this = i_length_result - this->i_length;
+    int i_shift_other = i_length_result - i_length_other;
 
-    for(int i=i_size_result-1; i>=0; i--) {
+    for(int i= i_length_result - 1; i >= 0; i--) {
 
-        int i_index_this = i-i_shift_this;
-        int i_index_other = i-i_shift_other + i_displacement;
+        int i_index_this = i-i_shift_this + i_displacement_this;
+        int i_index_other = i-i_shift_other + i_displacement_other;
 
-        if(i_index_this>=0) {
+        if(i_index_this>=0 && (i_length_result - 1 - i_displacement_this) >= i ) {
             i_accumulator+=this->pi_number[i_index_this];
         }
-        if(i_index_other>=0 && (i_size_result-1 - i_displacement) >= i ) {
+        if(i_index_other>=0 && (i_length_result - 1 - i_displacement_other) >= i ) {
             i_accumulator+=pi_other[i_index_other];
         }
-        pi_result[i]=i_accumulator%SYSTEM;
-        i_accumulator/=SYSTEM;
+        pi_result[i]=i_accumulator%i_SYSTEM;
+        i_accumulator/=i_SYSTEM;
     }
 }
 
-void CNumber::vSubArrays(int *&pi_result, int i_size_result, const int *&pi_other, const int i_length_other) const{
+void CNumber::vSubArrays(int *&pi_result, int i_length_result, const int *&pi_other, const int i_length_other) const{
 
-    const int i_shift_to_result = i_size_result - this->i_length;
+    const int i_shift_to_result = i_length_result - this->i_length;
 
-    for(int i=0; i<i_size_result; i++) {
+    for(int i=0; i < i_length_result; i++) {
         pi_result[i+i_shift_to_result]=pi_number[i];
     }
 
@@ -277,43 +338,63 @@ void CNumber::vSubArrays(int *&pi_result, int i_size_result, const int *&pi_othe
         if(pi_result[i+i_shift+i_shift_to_result]<0) {
             bool b_done = false;
             for(int y=i+i_shift+i_shift_to_result-1; y>=0 && !b_done; y--) {
-                pi_result[y]--;pi_result[y+1]+=SYSTEM;
+                pi_result[y]--;pi_result[y+1]+=i_SYSTEM;
                 b_done = pi_result[y]>=0;
             }
         }
     }
 }
+void CNumber::vMulArrays(int* &pi_result, int i_length_result, const int *&pi_other, const int i_length_other) const{
+    for(int i=0; i<i_length_result; i++){
+        pi_result[i]=0;
+    }
+    for(int i=0; i<i_length_other; i++) {
+        for(int ii=0; ii < pi_other[i]; ii++){
+            int* pi_temp = new int[i_length_result];
+            for(int i_index_copy=0; i_index_copy<i_length_result; i_index_copy++){
+                pi_temp[i_index_copy]=pi_result[i_index_copy];
+            }
+            int i_system_shift =(i_length_other - 1 - i);
+
+            const int* pi_result_temp = pi_result;
+            vAddArrays(pi_temp,i_length_result,i_system_shift,pi_result_temp,i_length_result,0);
+
+            delete[] pi_result;
+            pi_result = pi_temp;
+        }
+    }
+}
 
 
-bool CNumber::bIsBigger(const CNumber &pc_new_other,int i_displacement) const{
+bool CNumber::bIsBigger(const CNumber &pc_other, int i_displacement) const{
     /*
-    if(this->i_length > pc_new_other.i_length) {
+    if(this->i_length > pc_other.i_length) {
         return true;
-    }else if(this->i_length < pc_new_other.i_length) {
+    }else if(this->i_length < pc_other.i_length) {
         return false;
     }else {
         bool b_result;
         bool b_loop=true;
         for(int i=0; i<this->i_length && b_loop; i++) {
-            if(this->pi_number[i]!=pc_new_other.pi_number[i]){
-                b_result = this->pi_number[i] > pc_new_other.pi_number[i];
+            if(this->pi_number[i]!=pc_other.pi_number[i]){
+                b_result = this->pi_number[i] > pc_other.pi_number[i];
                 b_loop= false;
             }
         }
         return b_result;
     }
      */
-    if(this->i_length > pc_new_other.i_length+i_displacement) {
+    if(this->i_length > pc_other.i_length + i_displacement) {
         return true;
-    }else if(this->i_length < pc_new_other.i_length+i_displacement) {
+    }else if(this->i_length < pc_other.i_length + i_displacement) {
         return false;
     }else {
         bool b_result= true;
         bool b_loop= true;
         for(int i=0; i<this->i_length && b_loop; i++){
             int div = this->pi_number[i];
-            if(i<pc_new_other.i_length){
-                div -= pc_new_other.pi_number[i];
+            if(i < pc_other.i_length){
+                div -= pc_other.pi_number[i];
             }
             if(div!=0){
                 b_result = div>0;
@@ -324,6 +405,18 @@ bool CNumber::bIsBigger(const CNumber &pc_new_other,int i_displacement) const{
     }
 }
 
+bool CNumber::bIsSame(const CNumber &pc_other) const {
+    if(this->i_length != pc_other.i_length) {
+        return false;
+    }else {
+        for(int i=0; i<this->i_length; i++) {
+            if(this->pi_number[i] != pc_other.pi_number[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
 
 
 void CNumber::vTrim() {
@@ -357,7 +450,7 @@ void CNumber::vTrim() {
     }
 }
 
-void CNumber::v_Copy(const CNumber &pc_new_value) {
+void CNumber::vCopy(const CNumber &pc_new_value) {
     delete[] pi_number;
     this->i_length = pc_new_value.i_length;
     this->pi_number = new int[this->i_length];
@@ -366,6 +459,8 @@ void CNumber::v_Copy(const CNumber &pc_new_value) {
         pi_number[i]=pc_new_value.pi_number[i];
     }
 }
+
+
 
 
 

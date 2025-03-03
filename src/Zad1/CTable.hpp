@@ -37,6 +37,7 @@ public:
             delete[] pi_Table;
         }
     }
+
     void vSetName(std::string str_Name){
         this->str_Name=str_Name;
     }

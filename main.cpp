@@ -1,141 +1,103 @@
 #include <iostream>
-#include "src/Tool.hpp"
-#include "src/Zad2/Constans.h"
-#include "src/Zad2/CNumber.h"
-#include <cmath>
-#include <iostream>
+#include "src/Zad3/CTree.h"
 
-int vTrim(int* &pi_number,int i_length) {
-    int i_zeroes=0;
-    bool loop=true;
-    for(int i=0; i<i_length&&loop; i++) {
-        if(pi_number[i]==0) {
-            i_zeroes++;
-        }
-        else {
-         loop=false;
-        }
-    }
-    if(i_zeroes>0) {
-        if(i_zeroes==i_length) {
-            int* pi_new=new int[1]{0};
-            delete[] pi_number;
-            pi_number=pi_new;
-            i_length=1;
-        }
-        else {
-            int i_length_new = i_length-i_zeroes;
-            int* pi_number_new = new int[i_length_new];
-            for(int i=0; i<i_length_new; i++) {
-                pi_number_new[i] = pi_number[i+i_zeroes];
-            }
-            delete[] pi_number;
-            pi_number = pi_number_new;
-            i_length = i_length_new;
-        }
-    }
-    return i_length;
-}
+#include "src/Zad4/CResult.h"
+#include "src/Zad4/Functions.h"
+#include "src/Zad4/Saver.h"
+#include "src/Zad5/CMySmartPointer.h"
+#include <utility>
+#include <filesystem>
+using namespace std;
 
-void vAddArrays(int *&pi_result, int i_size_result,int* &pi_this,int i_length_this,int* &pi_other, int i_length_other,int i_displacement){
-    const int SYSTEM = 10;
-    int i_accumulator = 0;
-
-    int i_shift_this = i_size_result-i_length_this;
-    int i_shift_other = i_size_result-i_length_other;
-
-    for(int i=i_size_result-1; i>=0; i--) {
-
-        int i_index_this = i-i_shift_this;
-        int i_index_other = i-i_shift_other + i_displacement;
-
-        if(i_index_this>=0) {
-            i_accumulator+=pi_this[i_index_this];
-        }
-        if(i_index_other>=0 && (i_size_result-1 - i_displacement) >= i ) {
-            i_accumulator+=pi_other[i_index_other];
-        }
-        pi_result[i]=i_accumulator%SYSTEM;
-        i_accumulator/=SYSTEM;
+void showTree(CTree* tree){
+    if(tree!= nullptr) {
+        printf("str_str: %s\n", tree->str_str().c_str());
+        printf("calculate: %.2f\n", tree->dCalculate());
+        printf("failure: %s\n", tree->strFailure().c_str());
+        printf("calculation failure: %s\n", tree->strCalculationFailure().c_str());
+        printf("\n\n");
     }
 }
+template<typename T>
+void showCResult(CResult<T,CError> &cResult){
+    cout<<"CResult:\n";
+    if(cResult.bIsSuccess()){
+            cout<<cResult.cGetValue()<<'\n';
 
-void vSubArrays(int *&pi_result, int i_size_result,int* &pi_this,int i_length_this, int *&pi_other, int i_length_other) {
-
-    const int SYSTEM = 10;
-
-
-    const int i_shift_to_result = i_size_result - i_length_this;
-
-    for(int i=0; i<i_size_result; i++) {
-        pi_result[i+i_shift_to_result]=pi_this[i];
+    }else{
+        vector<CError*> vec = cResult.vGetErrors();
+        for(auto& error : vec)cout<<error->strGetError()<<'\n';
     }
-
-    const int i_shift = i_length_this - i_length_other;
-
-    for(int i=i_length_other-1; i>=0; i--) {
-        int i_index_result = i+i_shift+i_shift_to_result;
-        pi_result[i_index_result] -= pi_other[i];
-        if(pi_result[i+i_shift+i_shift_to_result]<0) {
-            bool b_done = false;
-            for(int y=i+i_shift+i_shift_to_result-1; y>=0 && !b_done; y--) {
-                pi_result[y]--;pi_result[y+1]+=SYSTEM;
-                b_done = pi_result[y]>=0;
-            }
-        }
+    cout<<'\n';
+}
+template<>
+void showCResult(CResult<CTree,CError> &cResult){
+    cout<<"CResult:\n";
+    if(cResult.bIsSuccess()){
+        cout<<cResult.cGetValue().str_str()<<'\n';
+    }else{
+        vector<CError*> vec = cResult.vGetErrors();
+        for(auto& error : vec)cout<<error->strGetError()<<'\n';
     }
-
-
-
+    cout<<'\n';
+}
+void showVoid(CResult<void,CError> cResult){
+    cout<<"CResult:\n";
+    if(cResult.bIsSuccess()){
+        cout<<"void"<<'\n';
+    }else{
+        vector<CError*> vec = cResult.vGetErrors();
+        for(auto& error : vec)cout<<error->strGetError()<<'\n';
+    }
+    cout<<'\n';
 }
 
-bool bIsBigger(int* pi_this,int i_length_this,int* pi_other,int i_length_other,int i_displacement){
-    if(i_length_this > i_length_other+i_displacement) {
-        return true;
-    }else if(i_length_this < i_length_other+i_displacement) {
-        return false;
-    }else {
-        bool b_result= true;
-        bool b_loop= true;
-       for(int i=0; i<i_length_this && b_loop; i++){
-           int div = pi_this[i];
-           if(i<i_length_other){
-               div -= pi_other[i];
-           }
-           if(div!=0){
-               b_result = div>0;
-               b_loop= false;
-           }
-       }
-        return b_result;
+void showModyfikacja(CResult<int*,int> cResult) {
+    cout<<"CResult:\n";
+    if(cResult.bIsSuccess()){
+        cout<<"good: ";
+        cout<<*cResult.cGetValue()<<'\n';
+    }else{
+        cout<<"fails:\n";
+        vector<int*> vec = cResult.vGetErrors();
+        for(auto& error : vec)cout<<*error<<'\n';
     }
+    cout<<'\n';
 }
+
+void test_mypointer(CMySmartPointer<CTree> &pointer){
+    CMySmartPointer<CTree> pointer_2 = pointer;
+    printf("pointer z funkcji:%s\n",(*pointer_2).str_str().c_str());
+}
+
 
 
 
 using namespace std;
 int main() {
 
+    CMySmartPointer<int> c_ptr(new int(12));
+    cout<<*c_ptr<<endl;
+    c_ptr = 30;
+    cout<<*c_ptr<<endl;
+    int i_val=20;
+    c_ptr=i_val;
+    cout<<*c_ptr<<endl;
+    CMySmartPointer<int> c_copy(c_ptr);
+    c_ptr=21;
+    cout<<*c_ptr<<endl;
+    c_ptr=i_val;
+    cout<<*c_ptr<<endl;
+
+    CTree t1("+ 1 2");
+    CTree t2("+ 1 3");
+    CTree t3 = t1 + std::move(t2);
 
 
-
-    int size_this = 3;
-    int size_other = 3;
-    int size_Result = 4;
-    int* pi_this = new int[size_this]{1,1,2};
-    int* pi_other = new int[size_other]{  9,0,0};
-    int* pi_result = new int[size_Result];
-
-
-    delete[] pi_result;
-    delete[] pi_this;
-    delete[] pi_other;
-
-
-
-    CNumber c1 = 500;
-    CNumber c2 = 101;
-
-    cout<<(c1.addTwoNumbers(c2,0)).str_str()<<endl;
+    showTree(&t1);
+    showTree(&t2);
+    showTree(&t3);
 
 }
+
+
